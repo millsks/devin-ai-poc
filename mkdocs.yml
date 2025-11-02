@@ -1,0 +1,70 @@
+site_name: Devin AI PoC Documentation
+site_description: Documentation for Devin AI Proof of Concept
+site_author: millsks
+repo_name: millsks/devin-ai-poc
+repo_url: https://github.com/millsks/devin-ai-poc
+
+# GitHub Pages configuration
+# When deploying to GitHub Pages, the site will be available at:
+# https://millsks.github.io/devin-ai-poc/
+site_url: https://millsks.github.io/devin-ai-poc/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - User Guide:
+      - Overview: user-guide/overview.md
+      - Configuration: user-guide/configuration.md
+  - Contributing: contributing.md
+  - About: about.md
