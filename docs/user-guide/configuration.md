@@ -138,13 +138,20 @@ extra_javascript:
 
 ### Plugins
 
-Add additional plugins:
+The current configuration includes the search plugin. Additional plugins can be added by first installing them and then configuring them in `mkdocs.yml`.
 
+**Current plugins:**
 ```yaml
 plugins:
-  - search               # Search functionality
-  - tags                 # Tag support
-  - git-revision-date    # Last updated dates
+  - search               # Search functionality (included)
+```
+
+**Optional plugins** (require additional installation):
+```yaml
+plugins:
+  - search
+  - tags                 # Requires: pip install mkdocs-material[tags]
+  - git-revision-date    # Requires: pip install mkdocs-git-revision-date-plugin
 ```
 
 ## Environment Variables
