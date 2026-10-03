@@ -1,0 +1,1769 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Devin Field Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky chapter rail on the left (desktop), single reading column; diagrams and tables break wider inside scroll boxes. */
+:root {
+  --bg: #F1F4F7;
+  --surface: #FFFFFF;
+  --sunken: #E7ECF1;
+  --ink: #14212D;
+  --muted: #566573;
+  --line: #D3DBE3;
+  --accent: #0A6A94;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #DDEDF5;
+  --signal: #B35600;
+  --signal-soft: #FBEADB;
+  --ok: #2B7A4B;
+  --ok-soft: #DFF1E6;
+  --lane1: #0A6A94;
+  --lane2: #6B4FBB;
+  --lane3: #2B7A4B;
+  --lane4: #B35600;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.55rem;
+  --step-3: 2.1rem;
+  --step-4: clamp(2.4rem, 5vw, 3.6rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1419; --surface: #141D25; --sunken: #1A2530; --ink: #E2E9EF; --muted: #93A2B0;
+    --line: #2A3743; --accent: #5DB7DF; --accent-ink: #08131A; --accent-soft: #15303D;
+    --signal: #F0A15A; --signal-soft: #3A2817; --ok: #6DC893; --ok-soft: #173225;
+    --lane1: #5DB7DF; --lane2: #A891F0; --lane3: #6DC893; --lane4: #F0A15A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1419; --surface: #141D25; --sunken: #1A2530; --ink: #E2E9EF; --muted: #93A2B0;
+  --line: #2A3743; --accent: #5DB7DF; --accent-ink: #08131A; --accent-soft: #15303D;
+  --signal: #F0A15A; --signal-soft: #3A2817; --ok: #6DC893; --ok-soft: #173225;
+  --lane1: #5DB7DF; --lane2: #A891F0; --lane3: #6DC893; --lane4: #F0A15A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: var(--step-0); line-height: 1.6; margin: 0; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+code, kbd, pre { font-family: var(--f-mono); font-size: 0.88em; }
+:not(pre) > code { background: var(--sunken); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+h1, h2, h3, h4 { font-family: var(--f-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: var(--step-3); font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: var(--step-2); font-weight: 700; margin-top: 2.2rem; }
+h4 { font-size: var(--step-1); font-weight: 700; margin-top: 1.4rem; }
+p, li { max-width: 68ch; }
+p { margin: 0.8rem 0; }
+ul, ol { padding-left: 1.3rem; }
+li { margin: 0.25rem 0; }
+
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 3rem; max-width: 1260px; margin: 0 auto; padding-inline: 24px; padding-block: 0 5rem; }
+@media (max-width: 960px) { .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-inline: 16px; } .rail { display: none; } }
+
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; max-height: 100vh; overflow-y: auto; padding-block: 2rem; font-size: var(--step--1); }
+.rail .brand { font-family: var(--f-display); font-weight: 800; font-size: 1.1rem; margin-bottom: 1.2rem; display: block; color: var(--ink); text-decoration: none; }
+.rail ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+.rail a { display: grid; grid-template-columns: 2.2em 1fr; padding: 0.3rem 0.5rem; border-radius: 6px; color: var(--muted); text-decoration: none; }
+.rail a span:first-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.rail a:hover { color: var(--ink); background: var(--sunken); }
+.rail a.active { color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+
+main { min-width: 0; }
+
+/* hero */
+.hero { padding-block: 3.5rem 2rem; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.hero h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.025em; margin-top: 0.6rem; max-width: 18ch; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { font-size: var(--step-1); color: var(--muted); max-width: 60ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin-top: 1.2rem; font-size: var(--step--1); color: var(--muted); }
+
+/* numbers to memorize */
+.numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 2rem; }
+.numbers div { background: var(--surface); padding: 1rem 1.1rem; display: grid; gap: 0.2rem; align-content: start; }
+.numbers b { font-family: var(--f-display); font-size: 1.9rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent); }
+.numbers span { font-size: var(--step--1); color: var(--muted); line-height: 1.4; }
+
+/* audience filter */
+.filter { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 0.8rem; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.filter .lbl { font-size: var(--step--1); color: var(--muted); margin-right: 0.3rem; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: var(--step--1); border: 0; background: none; color: var(--ink); padding: 0.35rem 0.9rem; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.theme-btn { margin-left: auto; font: inherit; font-size: var(--step--1); border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 0.35rem 0.8rem; cursor: pointer; }
+
+/* chapters */
+.chapter { padding-block: 3.5rem 1rem; border-bottom: 1px solid var(--line); scroll-margin-top: 60px; }
+.chapter > header { display: grid; gap: 0.6rem; margin-bottom: 1.2rem; }
+.chapter > header .num { font-family: var(--f-mono); color: var(--muted); font-size: 0.85rem; letter-spacing: 0.06em; }
+.chapter > header .why { color: var(--muted); font-size: var(--step-1); max-width: 62ch; margin: 0; }
+.aud { display: inline-flex; gap: 0.35rem; }
+.tag { font-family: var(--f-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.12rem 0.5rem; border-radius: 4px; border: 1px solid currentColor; }
+.tag.user { color: var(--lane3); }
+.tag.admin { color: var(--lane4); }
+[hidden] { display: none !important; }
+
+/* callouts */
+.callout { border: 1px solid var(--line); border-left-width: 4px; border-radius: 8px; padding: 0.9rem 1.1rem; margin: 1.3rem 0; background: var(--surface); max-width: 75ch; }
+.callout p { margin: 0.3rem 0; }
+.callout strong.k { font-family: var(--f-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.2rem; }
+.callout.warn { border-left-color: var(--signal); background: var(--signal-soft); }
+.callout.warn strong.k { color: var(--signal); }
+.callout.tip { border-left-color: var(--ok); background: var(--ok-soft); }
+.callout.tip strong.k { color: var(--ok); }
+.callout.note { border-left-color: var(--accent); background: var(--accent-soft); }
+.callout.note strong.k { color: var(--accent); }
+
+/* tables */
+.tbl { overflow-x: auto; margin: 1.2rem 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); }
+th { font-family: var(--f-mono); font-weight: 500; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--sunken); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; }
+td.num, th.num { font-variant-numeric: tabular-nums; }
+
+/* code */
+.code { position: relative; margin: 1.1rem 0; border: 1px solid var(--line); border-radius: 10px; background: var(--sunken); overflow: hidden; max-width: 100%; }
+.code .fn { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); padding: 0.45rem 0.9rem; border-bottom: 1px solid var(--line); background: var(--surface); }
+.code pre { margin: 0; padding: 0.9rem 1rem; overflow-x: auto; line-height: 1.5; color: var(--ink); }
+.copy { font: inherit; font-size: 0.72rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 5px; padding: 0.15rem 0.5rem; cursor: pointer; }
+.c-com { color: var(--muted); }
+.c-key { color: var(--accent); }
+
+/* diagram frame */
+figure.diagram { margin: 1.6rem 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem; }
+figure.diagram .scroll { overflow-x: auto; }
+figure.diagram svg { display: block; min-width: 720px; width: 100%; height: auto; }
+figure.diagram figcaption { font-size: var(--step--1); color: var(--muted); margin-top: 0.6rem; max-width: 80ch; }
+svg text { font-family: var(--f-body); fill: var(--ink); }
+svg .t-mono { font-family: var(--f-mono); }
+svg .t-muted { fill: var(--muted); }
+svg .t-head { font-family: var(--f-display); font-weight: 700; }
+svg .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+svg .sunk { fill: var(--sunken); stroke: var(--line); stroke-width: 1; }
+svg .wire { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+svg .wire-acc { stroke: var(--accent); stroke-width: 2; fill: none; }
+svg .arrowhead { fill: var(--muted); }
+svg .arrowhead-acc { fill: var(--accent); }
+svg .l1 { fill: var(--lane1); } svg .l2 { fill: var(--lane2); } svg .l3 { fill: var(--lane3); } svg .l4 { fill: var(--lane4); }
+svg .s1 { stroke: var(--lane1); } svg .s2 { stroke: var(--lane2); } svg .s3 { stroke: var(--lane3); } svg .s4 { stroke: var(--lane4); }
+svg .on-lane { fill: var(--bg); font-weight: 600; }
+svg .accfill { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2; }
+svg .sigfill { fill: var(--signal-soft); stroke: var(--signal); stroke-width: 1.2; }
+svg .okfill { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 1.2; }
+
+/* cards grid for component catalog */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.3rem 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; display: grid; gap: 0.4rem; align-content: start; min-width: 0; }
+.card h4 { margin: 0; font-size: 1.08rem; }
+.card .where { font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); overflow-wrap: anywhere; }
+.card p { margin: 0; font-size: 0.93rem; }
+.card .lane { width: 28px; height: 4px; border-radius: 2px; }
+
+/* compare columns */
+.vs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.vs > div { border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; background: var(--surface); min-width: 0; }
+.vs .bad { border-top: 4px solid var(--signal); }
+.vs .good { border-top: 4px solid var(--ok); }
+.vs h4 { margin: 0 0 0.4rem; }
+.vs blockquote { margin: 0.4rem 0; padding: 0.6rem 0.8rem; background: var(--sunken); border-radius: 6px; font-family: var(--f-mono); font-size: 0.84rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* decision tool */
+.tool { border: 1px solid var(--accent); border-radius: 12px; background: var(--surface); padding: 1.2rem; margin: 1.6rem 0; }
+.tool h4 { margin: 0 0 0.3rem; }
+.q-group { display: grid; gap: 0.6rem; margin: 0.9rem 0; }
+.q-group fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 0.6rem 0.9rem; margin: 0; }
+.q-group legend { font-weight: 600; padding: 0 0.3rem; font-size: 0.95rem; }
+.opts { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+.opts label { display: inline-flex; gap: 0.35rem; align-items: center; font-size: 0.93rem; cursor: pointer; }
+.verdict { margin-top: 0.8rem; padding: 0.9rem 1rem; border-radius: 8px; background: var(--accent-soft); border: 1px solid var(--accent); }
+.verdict b.v { font-family: var(--f-display); font-size: 1.25rem; display: block; }
+.verdict code { background: var(--surface); }
+
+/* checklist */
+.phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; margin: 1.3rem 0; }
+.phase { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; min-width: 0; }
+.phase h4 { margin: 0; }
+.phase .when { font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); }
+.phase ul { list-style: none; padding: 0; margin: 0.7rem 0 0; display: grid; gap: 0.35rem; }
+.phase li label { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem; font-size: 0.92rem; cursor: pointer; align-items: start; }
+.phase li input { margin-top: 0.3rem; }
+.phase li .who { font-family: var(--f-mono); font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.bar { height: 6px; background: var(--sunken); border-radius: 3px; margin-top: 0.8rem; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.progress-txt { font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 0.3rem; }
+
+/* quiz */
+.quiz { display: grid; gap: 1rem; margin: 1.3rem 0; }
+.qz { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; }
+.qz p.q { font-weight: 600; margin: 0 0 0.6rem; }
+.qz .choices { display: grid; gap: 0.4rem; }
+.qz button { text-align: left; font: inherit; font-size: 0.93rem; padding: 0.5rem 0.75rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 7px; cursor: pointer; }
+.qz button:hover { border-color: var(--accent); }
+.qz button.right { border-color: var(--ok); background: var(--ok-soft); }
+.qz button.wrong { border-color: var(--signal); background: var(--signal-soft); }
+.qz .explain { margin-top: 0.6rem; font-size: 0.92rem; color: var(--muted); }
+.score { font-family: var(--f-display); font-size: 1.3rem; font-weight: 700; }
+
+/* layers stack (context precedence) */
+.stack { display: grid; gap: 6px; margin: 1.3rem 0; }
+.stack .row { display: grid; grid-template-columns: 130px minmax(0, 1fr) minmax(0, 1.2fr); gap: 0.8rem; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0.7rem 0.9rem; }
+.stack .row b { font-family: var(--f-display); }
+.stack .row .lvl { font-family: var(--f-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.stack .row span { font-size: 0.9rem; }
+@media (max-width: 640px) { .stack .row { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; } }
+
+.foot { padding-block: 3rem; color: var(--muted); font-size: var(--step--1); }
+.foot ul { columns: 2 260px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<div class="shell">
+  <nav class="rail" aria-label="Chapters">
+    <a class="brand" href="#top">Devin Field Manual</a>
+    <ol id="toc">
+      <li><a href="#map"><span>01</span><span>The mental model</span></a></li>
+      <li><a href="#understand"><span>02</span><span>Index, DeepWiki, Ask</span></a></li>
+      <li><a href="#sessions"><span>03</span><span>Sessions</span></a></li>
+      <li><a href="#prompting"><span>04</span><span>Prompting well</span></a></li>
+      <li><a href="#context"><span>05</span><span>The context stack</span></a></li>
+      <li><a href="#skills"><span>06</span><span>Skills, rules, playbooks</span></a></li>
+      <li><a href="#plugins"><span>07</span><span>Plugins &amp; governance</span></a></li>
+      <li><a href="#house"><span>08</span><span>Encoding house style</span></a></li>
+      <li><a href="#environment"><span>09</span><span>Environment</span></a></li>
+      <li><a href="#review"><span>10</span><span>Devin Review</span></a></li>
+      <li><a href="#scale"><span>11</span><span>Parallel work</span></a></li>
+      <li><a href="#automations"><span>12</span><span>Automations</span></a></li>
+      <li><a href="#integrations"><span>13</span><span>Integrations &amp; MCP</span></a></li>
+      <li><a href="#admin"><span>14</span><span>Admin: org &amp; access</span></a></li>
+      <li><a href="#security"><span>15</span><span>Admin: security</span></a></li>
+      <li><a href="#cost"><span>16</span><span>Admin: usage &amp; cost</span></a></li>
+      <li><a href="#flywheel"><span>17</span><span>The improvement loop</span></a></li>
+      <li><a href="#rollout"><span>18</span><span>Rollout plan</span></a></li>
+      <li><a href="#pitfalls"><span>19</span><span>Pitfalls</span></a></li>
+      <li><a href="#quiz"><span>20</span><span>Self-check</span></a></li>
+    </ol>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="eyebrow">Primer for the Devin admin and subject-matter expert</div>
+      <h1>Teach Devin <em>how your team builds</em>, then let it work.</h1>
+      <p class="lede">Devin is Cognition's autonomous software engineer: a cloud VM with a shell, IDE and browser that takes a task, writes and tests code, and opens a pull request. Most of the value an admin adds is upstream of any single prompt: the environment it boots into, the context it loads, and the guardrails around it. This manual covers both seats, user and admin, with the emphasis on making sessions follow your development patterns.</p>
+      <div class="meta-row">
+        <span>Checked against docs.devin.ai on 3 Oct 2026</span>
+        <span>About 60 minutes to read end to end</span>
+        <span>Interactive: decision tool, rollout checklist, quiz</span>
+      </div>
+      <div class="numbers" aria-label="Numbers worth memorizing">
+        <div><b>16 KiB</b><span>Auto-injected from the top of each AGENTS.md or always-on rule. The rest is read only on demand.</span></div>
+        <div><b>1</b><span>Skill active at a time. Invoking another replaces it.</span></div>
+        <div><b>~24 h</b><span>Periodic snapshot rebuild, plus on every blueprint save.</span></div>
+        <div><b>30 min</b><span>Idle time before a session sleeps. Sleeping sessions use no ACUs.</span></div>
+        <div><b>≤ 3 h</b><span>Rule-of-thumb task size: if you could do it in three hours, Devin probably can.</span></div>
+        <div><b>L / XL</b><span>Session sizes flagged unhealthy by Session Insights. Split the work.</span></div>
+      </div>
+    </section>
+
+    <div class="filter" role="group" aria-label="Filter chapters by audience">
+      <span class="lbl">Show chapters for</span>
+      <div class="seg" id="audSeg">
+        <button type="button" data-aud="all" aria-pressed="true">Everyone</button>
+        <button type="button" data-aud="user" aria-pressed="false">Users</button>
+        <button type="button" data-aud="admin" aria-pressed="false">Admins</button>
+      </div>
+      <button type="button" class="theme-btn" id="themeBtn">Theme: system</button>
+    </div>
+
+    <!-- 01 -->
+    <section class="chapter" id="map" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 01</div>
+        <h2>The mental model</h2>
+        <p class="why">Devin is a set of products on top of three shared layers. Learn the layers first; every feature is one of them showing through.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <p>Work moves left to right across four activities: <b>understand</b> the code, <b>do</b> the change, <b>verify</b> it, and <b>automate</b> the next one. Underneath, every session draws from the same three layers. The <b>context layer</b> decides what Devin knows and how it behaves. The <b>environment layer</b> decides what machine it boots into. The <b>governance layer</b> decides what it is allowed to touch and spend.</p>
+
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 560" role="img" aria-label="Devin platform map: four activity lanes over context, environment and governance layers">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker>
+          </defs>
+          <!-- lanes -->
+          <g>
+            <rect x="20" y="20" width="215" height="44" rx="8" class="l1"/>
+            <text x="127" y="48" text-anchor="middle" class="on-lane t-head" font-size="17">Understand</text>
+            <rect x="255" y="20" width="215" height="44" rx="8" class="l2"/>
+            <text x="362" y="48" text-anchor="middle" class="on-lane t-head" font-size="17">Do</text>
+            <rect x="490" y="20" width="215" height="44" rx="8" class="l3"/>
+            <text x="597" y="48" text-anchor="middle" class="on-lane t-head" font-size="17">Verify</text>
+            <rect x="725" y="20" width="215" height="44" rx="8" class="l4"/>
+            <text x="832" y="48" text-anchor="middle" class="on-lane t-head" font-size="17">Automate</text>
+            <path d="M236 42 H252" class="wire" marker-end="url(#ah)"/>
+            <path d="M471 42 H487" class="wire" marker-end="url(#ah)"/>
+            <path d="M706 42 H722" class="wire" marker-end="url(#ah)"/>
+          </g>
+          <!-- products -->
+          <g font-size="13.5">
+            <rect x="20" y="78" width="215" height="196" rx="8" class="box"/>
+            <text x="34" y="104" font-weight="600">Repo indexing</text>
+            <text x="34" y="122" class="t-muted" font-size="12">default branch + chosen branches</text>
+            <text x="34" y="150" font-weight="600">DeepWiki</text>
+            <text x="34" y="168" class="t-muted" font-size="12">generated wiki + diagrams</text>
+            <text x="34" y="196" font-weight="600">Ask Devin</text>
+            <text x="34" y="214" class="t-muted" font-size="12">cited Q&amp;A, plan mode,</text>
+            <text x="34" y="230" class="t-muted" font-size="12">writes the session prompt</text>
+            <text x="34" y="258" font-weight="600">DeepWiki MCP</text>
+
+            <rect x="255" y="78" width="215" height="196" rx="8" class="box"/>
+            <text x="269" y="104" font-weight="600">Cloud sessions</text>
+            <text x="269" y="122" class="t-muted" font-size="12">shell, IDE, browser, PRs</text>
+            <text x="269" y="150" font-weight="600">Devin CLI / Desktop</text>
+            <text x="269" y="168" class="t-muted" font-size="12">local work, Fusion, /handoff</text>
+            <text x="269" y="196" font-weight="600">Managed Devins</text>
+            <text x="269" y="214" class="t-muted" font-size="12">coordinator + child sessions</text>
+            <text x="269" y="242" font-weight="600">Dynamic workflows</text>
+            <text x="269" y="260" class="t-muted" font-size="12">orchestration as a script</text>
+
+            <rect x="490" y="78" width="215" height="196" rx="8" class="box"/>
+            <text x="504" y="104" font-weight="600">Self-testing</text>
+            <text x="504" y="122" class="t-muted" font-size="12">runs app, screenshots, video</text>
+            <text x="504" y="150" font-weight="600">Devin Review</text>
+            <text x="504" y="168" class="t-muted" font-size="12">bug catcher, security, REVIEW.md</text>
+            <text x="504" y="196" font-weight="600">Auto-Fix</text>
+            <text x="504" y="214" class="t-muted" font-size="12">responds to review + CI</text>
+            <text x="504" y="242" font-weight="600">Code scans / Security</text>
+            <text x="504" y="260" class="t-muted" font-size="12">Swarm (where enabled)</text>
+
+            <rect x="725" y="78" width="215" height="196" rx="8" class="box"/>
+            <text x="739" y="104" font-weight="600">Automations</text>
+            <text x="739" y="122" class="t-muted" font-size="12">trigger → conditions → action</text>
+            <text x="739" y="150" font-weight="600">Auto-triage</text>
+            <text x="739" y="168" class="t-muted" font-size="12">Slack channel watcher</text>
+            <text x="739" y="196" font-weight="600">Schedules</text>
+            <text x="739" y="214" class="t-muted" font-size="12">now a trigger type</text>
+            <text x="739" y="242" font-weight="600">API / Devin MCP</text>
+            <text x="739" y="260" class="t-muted" font-size="12">programmatic sessions</text>
+          </g>
+          <!-- layers -->
+          <g font-size="13">
+            <rect x="20" y="300" width="920" height="72" rx="10" class="accfill"/>
+            <text x="38" y="326" class="t-head" font-size="16">Context layer</text>
+            <text x="38" y="348" class="t-muted">what Devin knows and how it behaves</text>
+            <text x="330" y="326" class="t-mono" font-size="12.5">AGENTS.md · rules · skills · plugins · playbooks</text>
+            <text x="330" y="348" class="t-mono" font-size="12.5">blueprint knowledge · REVIEW.md · PR templates · MCPs</text>
+
+            <rect x="20" y="384" width="920" height="72" rx="10" class="okfill"/>
+            <text x="38" y="410" class="t-head" font-size="16">Environment layer</text>
+            <text x="38" y="432" class="t-muted">the machine every session boots from</text>
+            <text x="330" y="410" class="t-mono" font-size="12.5">blueprints (enterprise → org → repo) → build → snapshot</text>
+            <text x="330" y="432" class="t-mono" font-size="12.5">secrets · browser profile · VPN / Outposts</text>
+
+            <rect x="20" y="468" width="920" height="72" rx="10" class="sigfill"/>
+            <text x="38" y="494" class="t-head" font-size="16">Governance layer</text>
+            <text x="38" y="516" class="t-muted">who can do what, where, for how much</text>
+            <text x="330" y="494" class="t-mono" font-size="12.5">enterprise / orgs · RBAC · SSO / SCIM / IdP groups</text>
+            <text x="330" y="516" class="t-mono" font-size="12.5">security profiles · guardrails · usage policies · audit</text>
+          </g>
+          <path d="M480 274 V298" class="wire" marker-end="url(#ah)"/>
+        </svg>
+        </div>
+        <figcaption>Every product in the top row reads from the three layers below. When a session misbehaves, the fix is almost always in a layer, not in the prompt.</figcaption>
+      </figure>
+
+      <h3>Component catalog</h3>
+      <p>The terms you will hear most, what each one is for, and where it lives. Color bars match the lanes above.</p>
+      <div class="cards">
+        <div class="card"><div class="lane" style="background:var(--lane1)"></div><h4>DeepWiki</h4><div class="where">Sidebar → Wiki · steer with .devin/wiki.json</div><p>Auto-generated documentation per indexed repo: architecture diagrams, source-linked pages, summaries. Ask Devin uses it as grounding.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane1)"></div><h4>Ask Devin</h4><div class="where">app.devin.ai/search</div><p>Codebase Q&amp;A with citations and a plan mode. It writes a context-rich prompt and starts a session for you. The recommended front door for real work.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane2)"></div><h4>Session</h4><div class="where">Web app · Slack / Teams · Jira / Linear · API</div><p>One task on a fresh copy of your org's snapshot. Ends in a PR, an answer, or an artifact. Billed in ACUs.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane2)"></div><h4>Devin CLI &amp; Desktop</h4><div class="where">curl -fsSL https://cli.devin.ai/install.sh | bash</div><p>Local agent on your machine. Same plugins and skills as the cloud. <code>/handoff</code> pushes long tasks to a cloud session.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane2)"></div><h4>Fusion</h4><div class="where">CLI: /fusion · Desktop: model selector</div><p>Local-agent model family: a frontier lead plans and reviews while a cheaper sidekick implements. Cognition's recommended default for CLI and Desktop.</p></div>
+        <div class="card"><div class="lane" style="background:var(--accent)"></div><h4>Skills</h4><div class="where">.agents/skills/&lt;name&gt;/SKILL.md · or in plugins</div><p>Reusable procedures, loaded on demand by description or by <code>@skills:name</code>. The primary way to teach your workflows.</p></div>
+        <div class="card"><div class="lane" style="background:var(--accent)"></div><h4>AGENTS.md &amp; rules</h4><div class="where">repo root · .devin/rules/*.md · plugin rules/</div><p>Always-on standing guidance. Keep it short; it costs context in every session.</p></div>
+        <div class="card"><div class="lane" style="background:var(--accent)"></div><h4>Playbooks</h4><div class="where">Settings → Playbooks · attach with !macro</div><p>Reusable prompt templates for a whole task, managed in the web app with version history. Org, enterprise and system scopes.</p></div>
+        <div class="card"><div class="lane" style="background:var(--accent)"></div><h4>Plugins</h4><div class="where">Customize → Plugins</div><p>Installable bundles of skills, rules, hooks, MCP servers and subagents. Personal, org or enterprise scope, with required / optional / forbidden lists.</p></div>
+        <div class="card"><div class="lane" style="background:var(--signal)"></div><h4>Knowledge <span class="tag admin" style="margin-left:.3rem">deprecated</span></h4><div class="where">migrating to Customize → Plugins → Knowledge</div><p>Older trigger-based notes. Being converted automatically into skills inside a Knowledge plugin. Write new guidance as skills.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane3)"></div><h4>Blueprints &amp; snapshots</h4><div class="where">Settings → Environment · or .devin/blueprint.yaml</div><p>YAML describing tools and dependencies. A build turns blueprints into the snapshot every session boots from.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane3)"></div><h4>Devin Review</h4><div class="where">app.devin.ai/review · /devin review on a PR</div><p>PR review with grouped diffs, bug catcher and security scan. Reads REVIEW.md, AGENTS.md, CONTRIBUTING.md and more.</p></div>
+        <div class="card"><div class="lane" style="background:var(--lane4)"></div><h4>Automations</h4><div class="where">Sidebar → Automations</div><p>Wire Slack, GitHub, GitLab, Jira, Linear, PagerDuty, schedules or webhooks to sessions, with conditions, preflight scripts and limits.</p></div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="chapter" id="understand" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 02</div>
+        <h2>Index, DeepWiki and Ask Devin</h2>
+        <p class="why">Understanding comes before doing. These three features are cheap, fast, and the best way to give a session a strong start.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <h3>Indexing is the prerequisite</h3>
+      <p>Indexing is separate from environment setup. Indexing powers search and understanding (Ask Devin, DeepWiki); the environment powers execution. To index: <b>Settings → DeepWiki → Repositories → Add</b>. Devin indexes the default branch; open a repo to add more branches under <b>Indexed branches</b>. Index the branches your team actively develops on.</p>
+      <div class="callout note"><strong class="k">Admin</strong><p>In an enterprise, an org can't index or clone a repo until an enterprise admin grants that org access under <b>Settings → Repositories</b>. Indexing needs the <b>Index Repositories</b> permission.</p></div>
+
+      <h3>DeepWiki</h3>
+      <p>DeepWiki generates a wiki for each indexed repo when you connect it: architecture diagrams, source links and summaries. Use it to onboard humans as much as Devin. There is also a free public version at <a href="https://deepwiki.com" target="_blank" rel="noopener">deepwiki.com</a> for open-source GitHub repos, and a DeepWiki MCP server that lets other agents query it.</p>
+
+      <div class="tbl"><table>
+        <thead><tr><th>Effort level</th><th class="num">Approx. cost</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Low (default)</td><td class="num">Free</td><td>Enterprise orgs always run at low; not configurable.</td></tr>
+          <tr><td>Medium</td><td class="num">~5–10 ACUs / wiki</td><td>Needs subscription or credits.</td></tr>
+          <tr><td>High</td><td class="num">~20–40 ACUs / wiki</td><td>Needs subscription or credits.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Steering a large repo with <code>.devin/wiki.json</code></h4>
+      <p>Large repos hit built-in limits, so some folders go undocumented. Commit a <code>.devin/wiki.json</code> at the repo root. Once it exists, automatic planning is bypassed and <b>exactly</b> the pages you list are generated. List every page you want, not only the missing one. Limits: 30 pages (80 enterprise), 100 notes total, 10,000 characters per note.</p>
+      <div class="code"><div class="fn"><span>.devin/wiki.json</span><button class="copy" type="button">Copy</button></div><pre>{
+  "repo_notes": [
+    { "content": "Monorepo. services/ holds deployable APIs, libs/ holds shared code. Prioritise the billing service and its event contracts.", "author": "Platform team" }
+  ],
+  "pages": [
+    { "title": "Architecture Overview", "purpose": "How services/, libs/ and infra/ fit together" },
+    { "title": "Billing Service", "purpose": "services/billing: API, event publishing, idempotency", "parent": "Architecture Overview" },
+    { "title": "Shared Libraries", "purpose": "libs/: logging, auth client, retry helpers", "parent": "Architecture Overview" },
+    { "title": "Testing &amp; CI", "purpose": "Test layout, fixtures, the CI gate and how to run it locally" }
+  ]
+}</pre></div>
+
+      <h3>Ask Devin: the recommended front door</h3>
+      <p>Ask Devin answers questions about your code with citations, and its plan mode scopes work before any code is written. When the plan is clear, start a session straight from the conversation: Devin writes the prompt from what it learned, and the session's status shows inline. Exploring here is far cheaper than letting a full session discover the same things by trial and error, so it's the right place to remove ambiguity.</p>
+
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 170" role="img" aria-label="Recommended flow from indexing to merged PR">
+          <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead-acc"/></marker></defs>
+          <g font-size="13.5">
+            <rect x="10" y="40" width="160" height="80" rx="10" class="box"/><text x="90" y="74" text-anchor="middle" font-weight="600">Index repo</text><text x="90" y="95" text-anchor="middle" class="t-muted" font-size="12">Settings → DeepWiki</text>
+            <rect x="200" y="40" width="160" height="80" rx="10" class="box"/><text x="280" y="74" text-anchor="middle" font-weight="600">Explore</text><text x="280" y="95" text-anchor="middle" class="t-muted" font-size="12">DeepWiki + Ask Devin</text>
+            <rect x="390" y="40" width="160" height="80" rx="10" class="accfill"/><text x="470" y="74" text-anchor="middle" font-weight="600">Plan mode</text><text x="470" y="95" text-anchor="middle" class="t-muted" font-size="12">scope, decide, criteria</text>
+            <rect x="580" y="40" width="160" height="80" rx="10" class="box"/><text x="660" y="74" text-anchor="middle" font-weight="600">Start session</text><text x="660" y="95" text-anchor="middle" class="t-muted" font-size="12">prompt auto-written</text>
+            <rect x="770" y="40" width="180" height="80" rx="10" class="okfill"/><text x="860" y="74" text-anchor="middle" font-weight="600">PR + Devin Review</text><text x="860" y="95" text-anchor="middle" class="t-muted" font-size="12">auto-fix, human merge</text>
+            <path d="M170 80 H197" class="wire-acc" marker-end="url(#ah2)"/>
+            <path d="M360 80 H387" class="wire-acc" marker-end="url(#ah2)"/>
+            <path d="M550 80 H577" class="wire-acc" marker-end="url(#ah2)"/>
+            <path d="M740 80 H767" class="wire-acc" marker-end="url(#ah2)"/>
+            <text x="470" y="150" text-anchor="middle" class="t-muted" font-size="12">Most of the success rate is decided here, before the session starts.</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+    </section>
+
+    <!-- 03 -->
+    <section class="chapter" id="sessions" data-aud="user">
+      <header>
+        <div class="num">CHAPTER 03</div>
+        <h2>Anatomy of a session</h2>
+        <p class="why">A session is a disposable laptop with an engineer attached. Knowing what's on that laptop, and how to step in, makes you a much better collaborator.</p>
+        <div class="aud"><span class="tag user">User</span></div>
+      </header>
+
+      <h3>Lifecycle</h3>
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 250" role="img" aria-label="Session lifecycle from snapshot boot to teardown">
+          <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+          <g font-size="13">
+            <rect x="10" y="30" width="170" height="92" rx="10" class="okfill"/>
+            <text x="95" y="58" text-anchor="middle" font-weight="600">Boot</text>
+            <text x="95" y="78" text-anchor="middle" class="t-muted" font-size="12">fresh copy of the</text>
+            <text x="95" y="94" text-anchor="middle" class="t-muted" font-size="12">org snapshot</text>
+            <rect x="200" y="30" width="170" height="92" rx="10" class="accfill"/>
+            <text x="285" y="58" text-anchor="middle" font-weight="600">Load context</text>
+            <text x="285" y="78" text-anchor="middle" class="t-muted" font-size="12">pull latest code, rules,</text>
+            <text x="285" y="94" text-anchor="middle" class="t-muted" font-size="12">skill list, repo knowledge</text>
+            <rect x="390" y="30" width="170" height="92" rx="10" class="box"/>
+            <text x="475" y="58" text-anchor="middle" font-weight="600">Work</text>
+            <text x="475" y="78" text-anchor="middle" class="t-muted" font-size="12">plan, edit, run, test,</text>
+            <text x="475" y="94" text-anchor="middle" class="t-muted" font-size="12">browse, invoke skills</text>
+            <rect x="580" y="30" width="170" height="92" rx="10" class="box"/>
+            <text x="665" y="58" text-anchor="middle" font-weight="600">Deliver</text>
+            <text x="665" y="78" text-anchor="middle" class="t-muted" font-size="12">PR, answer, files,</text>
+            <text x="665" y="94" text-anchor="middle" class="t-muted" font-size="12">screenshots, video</text>
+            <rect x="770" y="30" width="180" height="92" rx="10" class="sunk"/>
+            <text x="860" y="58" text-anchor="middle" font-weight="600">Sleep / end</text>
+            <text x="860" y="78" text-anchor="middle" class="t-muted" font-size="12">30 min idle → sleep</text>
+            <text x="860" y="94" text-anchor="middle" class="t-muted" font-size="12">VM changes discarded</text>
+            <path d="M180 76 H197" class="wire" marker-end="url(#ah3)"/>
+            <path d="M370 76 H387" class="wire" marker-end="url(#ah3)"/>
+            <path d="M560 76 H577" class="wire" marker-end="url(#ah3)"/>
+            <path d="M750 76 H767" class="wire" marker-end="url(#ah3)"/>
+            <path d="M860 122 C 860 200, 475 200, 475 126" class="wire" marker-end="url(#ah3)" stroke-dasharray="5 4"/>
+            <text x="668" y="205" text-anchor="middle" class="t-muted" font-size="12">send a message to wake it; it resumes where it stopped</text>
+          </g>
+        </svg>
+        </div>
+        <figcaption>Nothing a session installs persists. If Devin keeps re-installing the same thing, that belongs in the blueprint (chapter 09).</figcaption>
+      </figure>
+
+      <h3>The workspace</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Tool</th><th>What it is</th><th>When you use it</th></tr></thead>
+        <tbody>
+          <tr><td>Progress tab</td><td>Unified timeline of every command, edit and browser action.</td><td>Click any step to see exactly what Devin did and why.</td></tr>
+          <tr><td>Shell</td><td>Devin's terminal with full command history and output previews.</td><td>See what Devin tried. Greyed commands are later in time; click to jump.</td></tr>
+          <tr><td>IDE</td><td>VS Code with your repos, Cmd/Ctrl+K, Cmd/Ctrl+I, tab complete.</td><td>Review diffs live; take over for a fix. Pause Devin first, then tell it what you changed.</td></tr>
+          <tr><td>Browser / Computer</td><td>Interactive browser or full desktop (with Computer Use).</td><td>Test UI, complete MFA or CAPTCHA, log in. Ask Devin to "save the browser profile" to persist logins into the blueprint.</td></tr>
+          <tr><td>Side chats</td><td>Read-only Q&amp;A next to the main thread. Start with <code>/btw your question</code>.</td><td>Ask "why did you do that?" without derailing the work.</td></tr>
+          <tr><td>Session Insights</td><td>Post-session analysis: size, issues, improved prompt, knowledge usage.</td><td>After any L/XL session or anything that went sideways.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Where sessions start</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Entry point</th><th>How</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td>Web app</td><td>Home prompt box, or from Ask Devin</td><td>Planned work with attachments, playbooks, repo selection</td></tr>
+          <tr><td>Slack / Teams</td><td>Tag <code>@Devin</code> in a thread</td><td>Bugs discussed with coworkers; Devin replies in-thread</td></tr>
+          <tr><td>GitHub PR</td><td>Comment <code>/devin &lt;prompt&gt;</code> or <code>/devin review</code></td><td>Fixing a failing test or nit on an open PR</td></tr>
+          <tr><td>Jira / Linear</td><td>Assign or label a ticket</td><td>Ticket-driven work, with confidence scoring</td></tr>
+          <tr><td>Devin CLI</td><td><code>devin</code> then <code>/handoff</code></td><td>Start locally, send long work to the cloud</td></tr>
+          <tr><td>Automations / API</td><td>Triggers, webhooks, schedules, Devin MCP</td><td>Recurring or event-driven work</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Modes and models</h3>
+      <p>Cloud sessions and the local agent pick models differently. In the web app, the session start box has an agent or capability picker. Current tiers include a cheaper <b>Lite</b> mode, <b>Normal</b>, and a heavyweight <b>Ultra</b>, with research previews appearing over time. Exact model names change often; check the picker. Match the mode to the task: Devin Coach will flag Ultra on a one-line change.</p>
+      <p>Devin CLI and Devin Desktop (local sessions) have their own model picker with three kinds of choice. Cognition now recommends <b>Fusion</b> for most users.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Choice</th><th>What it does</th><th>Select with</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td>Fusion <span class="tag user" style="margin-left:.3rem">recommended</span></td><td>A frontier <b>lead</b> model plans, reasons and reviews; a cheaper <b>sidekick</b> writes the code, runs builds and tests. You talk to one Devin.</td><td>CLI: <code>/fusion</code> or <code>/model fusion</code>. Desktop: model selector or <code>/model</code></td><td>Complex work where you want frontier quality without frontier prices on every token</td></tr>
+          <tr><td>Adaptive</td><td>A router that sends each request to a light or heavy model based on the prompt.</td><td><code>/model adaptive</code> or <code>--model adaptive</code></td><td>Mixed day-to-day work; cheapest default on self-serve</td></tr>
+          <tr><td>A single model</td><td>One model for everything. Short names (<code>opus</code>, <code>sonnet</code>, <code>swe</code>, <code>codex</code>, <code>gemini</code>) resolve to the latest in that family.</td><td><code>/model opus</code>, <code>--model swe</code></td><td>A specific model's strengths; quick cheap edits on <code>swe</code></td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Fusion: how the pairing works</h4>
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 230" role="img" aria-label="Fusion: the user talks to one Devin; a frontier lead model plans and reviews while a cheaper sidekick model implements">
+          <defs><marker id="ahf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+          <g font-size="13">
+            <rect x="10" y="70" width="150" height="80" rx="10" class="box"/>
+            <text x="85" y="104" text-anchor="middle" font-weight="600">You</text>
+            <text x="85" y="124" text-anchor="middle" class="t-muted" font-size="12">one conversation</text>
+            <rect x="220" y="20" width="330" height="180" rx="12" class="sunk"/>
+            <text x="236" y="42" class="t-muted" font-size="12">One Devin session (Fusion)</text>
+            <rect x="240" y="56" width="290" height="62" rx="9" class="accfill"/>
+            <text x="256" y="80" font-weight="600">Lead · frontier model</text>
+            <text x="256" y="100" class="t-muted" font-size="12">plans, designs, investigates, reviews</text>
+            <rect x="240" y="128" width="290" height="62" rx="9" class="okfill"/>
+            <text x="256" y="152" font-weight="600">Sidekick · cost-efficient model</text>
+            <text x="256" y="172" class="t-muted" font-size="12">writes code, runs builds and tests, verifies</text>
+            <path d="M160 110 H217" class="wire" marker-end="url(#ahf)"/>
+            <path d="M598 110 H553" class="wire" stroke-dasharray="4 4"/>
+            <text x="610" y="70" font-weight="600">You configure</text>
+            <text x="610" y="94" class="t-mono" font-size="12.5">Lead      which frontier model drives</text>
+            <text x="610" y="116" class="t-mono" font-size="12.5">Effort    how long the lead reasons</text>
+            <text x="610" y="138" class="t-mono" font-size="12.5">Sidekick  recommended one is shown</text>
+            <text x="610" y="160" class="t-mono" font-size="12.5">Fast      faster variants, higher cost</text>
+            <text x="610" y="194" class="t-muted" font-size="12">Each model bills at its own rate.</text>
+          </g>
+        </svg>
+        </div>
+        <figcaption>Most tokens in a typical session are mechanical implementation, so moving them to the sidekick is where the savings come from. Cognition's recommended starting pairing is <b>Fable 5.1 lead + SWE-2 sidekick</b>; Fusion's internal instructions are tuned per pairing.</figcaption>
+      </figure>
+      <ul>
+        <li><b>Where it runs:</b> Devin CLI <b>3000.10.20+</b> and Devin Desktop <b>3.10.0+</b>, in local sessions. <code>/fusion</code> is CLI-only; in Desktop use the model selector. Switch back to a single model at any time with <code>/model</code>.</li>
+        <li><b>Who gets it:</b> paid plans only. Not on free or trial tiers, and <b>not</b> on legacy or credit-based plans, including enterprises still on legacy credits billing.</li>
+        <li><b>Billing:</b> the lead bills at its frontier rate and the sidekick at its lower rate; both rates show in the picker. Self-serve draws down quota per token; Cognition-platform enterprises are metered in ACUs that scale with both models' tokens.</li>
+        <li><b>Measure it:</b> run <code>/session-stats</code> (or <code>/stats</code>) in the CLI to see tokens, cost by model and estimated Fusion savings. Compare total cost and result quality on similar tasks, not token price alone.</li>
+      </ul>
+      <div class="callout tip"><strong class="k">When to reach for which</strong><p>Fusion for multi-file features, refactors and investigations you'd otherwise give a frontier model. A single <code>swe</code> model for small, obvious edits. Adaptive when you don't want to think about it. For long work, start locally on Fusion to plan, then <code>/handoff</code> to a cloud session.</p></div>
+
+      <h3>Session sizing</h3>
+      <p>Session Insights classifies every session by ACU consumption. L and XL are flagged unhealthy: the task was too broad, the prompt too vague, or the environment broken.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Size</th><th class="num">Self-serve ACUs</th><th class="num">Enterprise ACUs (×10)</th><th>Read it as</th></tr></thead>
+        <tbody>
+          <tr><td>XS</td><td class="num">≤ 2</td><td class="num">≤ 20</td><td>Quick fix or answer</td></tr>
+          <tr><td>S</td><td class="num">≤ 5</td><td class="num">≤ 50</td><td>Well-scoped ticket</td></tr>
+          <tr><td>M</td><td class="num">≤ 10</td><td class="num">≤ 100</td><td>Healthy upper bound for one session</td></tr>
+          <tr><td>L</td><td class="num">≤ 20</td><td class="num">≤ 200</td><td>Unhealthy: split or fix the environment</td></tr>
+          <tr><td>XL</td><td class="num">&gt; 20</td><td class="num">&gt; 200</td><td>Unhealthy: investigate with Insights</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- 04 -->
+    <section class="chapter" id="prompting" data-aud="user">
+      <header>
+        <div class="num">CHAPTER 04</div>
+        <h2>Prompting well</h2>
+        <p class="why">Treat a prompt like a ticket you'd hand a strong new hire: scope, pointers, decisions already made, and a definition of done.</p>
+        <div class="aud"><span class="tag user">User</span></div>
+      </header>
+
+      <h3>The four ingredients</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Ingredient</th><th>Why it matters</th><th>Example phrase</th></tr></thead>
+        <tbody>
+          <tr><td>Context</td><td>Which repo, which area, what for.</td><td>"In <code>payments-api</code>, the refund endpoint…"</td></tr>
+          <tr><td>Steps or decisions</td><td>Removes forks in the road where Devin could guess wrong.</td><td>"Use a composite index, not a cache."</td></tr>
+          <tr><td>Patterns to follow</td><td>Devin copies what you point at.</td><td>"Follow <code>handlers/charge.py</code> for error handling."</td></tr>
+          <tr><td>Success criteria</td><td>Lets Devin verify itself and know when to stop.</td><td>"Done when <code>pixi run ci</code> passes and the new test covers the 409 path."</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="vs">
+        <div class="bad"><h4>Vague</h4><blockquote>Improve our database performance.</blockquote><p>Open-ended, no target, no way to verify. Expect an L or XL session and a PR you don't want.</p></div>
+        <div class="good"><h4>Specific</h4><blockquote>In orders-service, optimize getOrderDetails in orderService.js: add a composite index on order_items(order_id, product_id) via a new migration, and replace the correlated subquery with a JOIN to products. Keep the response shape identical. Done when existing tests pass and a new test asserts the query plan uses the index.</blockquote><p>Scoped, decided, verifiable.</p></div>
+      </div>
+
+      <h3>Pre-flight checklist</h3>
+      <ul>
+        <li><b>Clear start and end.</b> Can you state success in one sentence that a test, CI run or script can check?</li>
+        <li><b>Size.</b> Under about three hours of human work? If not, split it, or ask for managed Devins.</li>
+        <li><b>Pointers.</b> Files to imitate, doc links, Figma via MCP, example inputs and outputs.</li>
+        <li><b>Tools connected.</b> Does Devin need Sentry, Datadog, a database? Connect the MCP first.</li>
+        <li><b>Self-test instruction.</b> "Run the app and screenshot <code>/settings</code> at 1440px and 375px." Devin has a real browser.</li>
+        <li><b>One task per session.</b> Unrelated follow-ups belong in a new session. Devin Coach will say so.</li>
+      </ul>
+
+      <h3>Reusable shortcuts</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Syntax</th><th>What it does</th><th>Defined by</th></tr></thead>
+        <tbody>
+          <tr><td><code>@skills:name args</code></td><td>Invokes a skill; args fill <code>$ARGUMENTS</code>, <code>$1</code>…<code>$9</code>.</td><td>Repo SKILL.md files or plugins</td></tr>
+          <tr><td><code>!macro</code></td><td>Attaches a playbook (blue pill appears; editable before send).</td><td>Settings → Playbooks</td></tr>
+          <tr><td><code>/command</code></td><td>Expands an org slash command into its prompt template.</td><td>Org admins, Settings → Devin → Commands</td></tr>
+          <tr><td><code>/btw question</code></td><td>Opens a read-only side chat.</td><td>Built in</td></tr>
+          <tr><td><code>/devin …</code> on a PR</td><td>Starts a session on that PR, or <code>/devin review</code>.</td><td>GitHub integration</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- 05 -->
+    <section class="chapter" id="context" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 05</div>
+        <h2>The context stack</h2>
+        <p class="why">This is the core of molding Devin to your team. Each mechanism loads at a different moment and costs a different amount of attention. Pick by when the guidance is needed.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <p>Every piece of guidance has a cost: context loaded into every session dilutes attention for everyone. Cognition's own advice for the CLI is direct: use skills wherever possible, keep rules and AGENTS.md as small as possible, and use a rule to point at skills. The diagram shows when each mechanism enters the session.</p>
+
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 380" role="img" aria-label="When each kind of guidance enters a session">
+          <g font-size="13">
+            <text x="20" y="28" class="t-head" font-size="15">Session start</text>
+            <text x="350" y="28" class="t-head" font-size="15">While working</text>
+            <text x="680" y="28" class="t-head" font-size="15">When you ask</text>
+            <line x1="330" y1="14" x2="330" y2="370" class="wire" stroke-dasharray="3 4"/>
+            <line x1="660" y1="14" x2="660" y2="370" class="wire" stroke-dasharray="3 4"/>
+
+            <rect x="20" y="44" width="295" height="62" rx="8" class="accfill"/>
+            <text x="34" y="68" font-weight="600">AGENTS.md (root)</text>
+            <text x="34" y="88" class="t-muted" font-size="12">always on · first 16 KiB injected</text>
+            <rect x="20" y="114" width="295" height="62" rx="8" class="accfill"/>
+            <text x="34" y="138" font-weight="600">Always-on rules</text>
+            <text x="34" y="158" class="t-muted" font-size="12">Customize → Rules · plugin rules · 16 KiB each</text>
+            <rect x="20" y="184" width="295" height="62" rx="8" class="accfill"/>
+            <text x="34" y="208" font-weight="600">Blueprint knowledge</text>
+            <text x="34" y="228" class="t-muted" font-size="12">lint / test / build commands for that repo</text>
+            <rect x="20" y="254" width="295" height="62" rx="8" class="box"/>
+            <text x="34" y="278" font-weight="600">Skill catalog (names + descriptions)</text>
+            <text x="34" y="298" class="t-muted" font-size="12">only the one-line descriptions, not the bodies</text>
+
+            <rect x="350" y="44" width="295" height="62" rx="8" class="box"/>
+            <text x="364" y="68" font-weight="600">Skills, auto-invoked</text>
+            <text x="364" y="88" class="t-muted" font-size="12">Devin matches the description to the task</text>
+            <rect x="350" y="114" width="295" height="62" rx="8" class="box"/>
+            <text x="364" y="138" font-weight="600">Triggered rules</text>
+            <text x="364" y="158" class="t-muted" font-size="12">glob or model_decision activation</text>
+            <rect x="350" y="184" width="295" height="62" rx="8" class="box"/>
+            <text x="364" y="208" font-weight="600">Subdirectory AGENTS.md / rules</text>
+            <text x="364" y="228" class="t-muted" font-size="12">CLI loads lazily when files there are touched</text>
+            <rect x="350" y="254" width="295" height="62" rx="8" class="sigfill"/>
+            <text x="364" y="278" font-weight="600">Knowledge (legacy)</text>
+            <text x="364" y="298" class="t-muted" font-size="12">trigger-matched; now migrated to skills</text>
+
+            <rect x="680" y="44" width="265" height="62" rx="8" class="box"/>
+            <text x="694" y="68" font-weight="600">@skills:name</text>
+            <text x="694" y="88" class="t-muted" font-size="12">explicit invocation with arguments</text>
+            <rect x="680" y="114" width="265" height="62" rx="8" class="box"/>
+            <text x="694" y="138" font-weight="600">Playbook (!macro)</text>
+            <text x="694" y="158" class="t-muted" font-size="12">attached at session start</text>
+            <rect x="680" y="184" width="265" height="62" rx="8" class="box"/>
+            <text x="694" y="208" font-weight="600">Slash command</text>
+            <text x="694" y="228" class="t-muted" font-size="12">expands to a prompt template</text>
+            <rect x="680" y="254" width="265" height="62" rx="8" class="box"/>
+            <text x="694" y="278" font-weight="600">user-only skills</text>
+            <text x="694" y="298" class="t-muted" font-size="12">triggers: ["user"] never auto-fire</text>
+
+            <text x="20" y="352" class="t-muted" font-size="12">Highlighted = always paid for, in every session. Keep it lean.</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+
+      <h3>The mechanisms side by side</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Mechanism</th><th>Lives in</th><th>Loaded</th><th>Versioned</th><th>Scope</th><th>Use it for</th></tr></thead>
+        <tbody>
+          <tr><td>AGENTS.md</td><td>Repo (root or subdir)</td><td>Always, first 16 KiB</td><td>Git</td><td>Repo</td><td>Non-negotiables, setup commands, pointers to skills</td></tr>
+          <tr><td>Rules</td><td><code>.devin/rules/</code>, Customize → Rules, plugins</td><td>Always, or by trigger</td><td>Git or plugin</td><td>Repo, personal, org, enterprise</td><td>Standing conventions that apply broadly</td></tr>
+          <tr><td>Skills</td><td><code>.agents/skills/</code> or plugins</td><td>On demand</td><td>Git or plugin</td><td>Repo, personal, org, enterprise</td><td>Procedures: test, deploy, scaffold, investigate</td></tr>
+          <tr><td>Playbooks</td><td>Web app</td><td>When attached</td><td>Version history in app</td><td>Org, enterprise, system</td><td>Whole-task templates across repos</td></tr>
+          <tr><td>Blueprint knowledge</td><td>Blueprint YAML</td><td>Session start, per repo</td><td>UI or git-backed</td><td>Repo</td><td>Exact lint, test, build commands</td></tr>
+          <tr><td>REVIEW.md</td><td>Repo, any dir</td><td>During Devin Review</td><td>Git</td><td>Directory subtree</td><td>What reviewers must check or ignore</td></tr>
+          <tr><td>DEVIN_PR_TEMPLATE.md</td><td>Repo</td><td>When opening a PR</td><td>Git</td><td>Repo</td><td>Devin-specific PR body without changing the human template</td></tr>
+          <tr><td>Knowledge</td><td>Web app (legacy)</td><td>Trigger match or pinned</td><td>None</td><td>Repo pin, org, enterprise</td><td>Nothing new. Migrating to skills</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout warn"><strong class="k">Knowledge is deprecated</strong><p>Cognition is migrating every Knowledge note into a skill inside a <b>Knowledge plugin</b> at the same scope (enterprise, org or personal). Name becomes the skill name, trigger becomes the description, content is copied verbatim, folders and repo pins move into metadata, and migrated skills are marked <code>user-invocable: false</code>. Behavior doesn't change and no action is required. Edit migrated items under <b>Customize → Skills</b>. API users should move from <code>/v3/.../knowledge/notes</code> to the <code>/v3beta1/.../managed-plugins</code> skill endpoints.</p></div>
+
+      <h3>It reads your existing agent files</h3>
+      <p>You probably don't start from zero. Devin picks up guidance already written for other tools, so a repo that serves Claude Code or Cursor today already shapes Devin.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Already have</th><th>Who reads it</th></tr></thead>
+        <tbody>
+          <tr><td><code>AGENTS.md</code>, <code>AGENT.md</code>, <code>AGENTS.local.md</code></td><td>Cloud sessions, CLI, Devin Review</td></tr>
+          <tr><td><code>CLAUDE.md</code>, <code>~/.claude/CLAUDE.md</code>, <code>.claude/skills/</code></td><td>CLI reads CLAUDE.md as rules; skills scanned in <code>.claude/skills/</code>; Review reads CLAUDE.md</td></tr>
+          <tr><td><code>.cursor/rules/*.mdc</code>, <code>.cursorrules</code></td><td>CLI rules (honours globs / alwaysApply); Review</td></tr>
+          <tr><td><code>.windsurf/rules/</code>, <code>.windsurfrules</code></td><td>CLI rules (<code>.devin/</code> wins on conflict); Review</td></tr>
+          <tr><td><code>CONTRIBUTING.md</code>, <code>.coderabbit.yaml</code>, <code>greptile.json</code></td><td>Devin Review</td></tr>
+        </tbody>
+      </table></div>
+      <p>Control CLI imports with <code>read_config_from</code> in <code>.devin/config.json</code> if you want Devin to ignore a legacy format.</p>
+
+      <div class="tool" id="placer">
+        <h4>Where should this guidance go?</h4>
+        <p style="margin:0;color:var(--muted);font-size:.93rem">Answer three questions about a piece of guidance you want Devin to follow.</p>
+        <div class="q-group">
+          <fieldset><legend>What kind of guidance is it?</legend><div class="opts">
+            <label><input type="radio" name="kind" value="rule" checked> A standing convention ("always…", "never…")</label>
+            <label><input type="radio" name="kind" value="proc"> A step-by-step procedure</label>
+            <label><input type="radio" name="kind" value="task"> A whole-task template I start sessions with</label>
+            <label><input type="radio" name="kind" value="cmd"> The exact lint / test / build command</label>
+            <label><input type="radio" name="kind" value="review"> Something reviewers should check</label>
+          </div></fieldset>
+          <fieldset><legend>How often does it matter?</legend><div class="opts">
+            <label><input type="radio" name="freq" value="always" checked> In nearly every session</label>
+            <label><input type="radio" name="freq" value="some"> Only for certain tasks or files</label>
+          </div></fieldset>
+          <fieldset><legend>Who does it apply to?</legend><div class="opts">
+            <label><input type="radio" name="scope" value="repo" checked> One repository</label>
+            <label><input type="radio" name="scope" value="team"> A team across many repos</label>
+            <label><input type="radio" name="scope" value="company"> The whole company</label>
+            <label><input type="radio" name="scope" value="me"> Just me</label>
+          </div></fieldset>
+        </div>
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="chapter" id="skills" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 06</div>
+        <h2>Skills, rules and playbooks in depth</h2>
+        <p class="why">Skills are now the main unit of teaching. Learn the file format well; it's an open standard and also works in other agents.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <h3>Skills</h3>
+      <p>A skill is a <code>SKILL.md</code> file following the open <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills spec</a>. At session start Devin sees only each skill's name and description. When a skill is invoked, its body is injected as a system-level instruction and Devin follows the steps in order.</p>
+
+      <h4>Where Devin finds them</h4>
+      <p>All six paths are scanned in every repo: <code>.agents/skills/</code> (recommended), <code>.devin/skills/</code>, <code>.github/skills/</code>, <code>.claude/skills/</code>, <code>.cognition/skills/</code>, <code>.windsurf/skills/</code>, each as <code>&lt;skill-name&gt;/SKILL.md</code>. Skills from indexed repos are available before cloning; once a repo is cloned, the on-disk version from the working branch wins. Plugin skills appear as <code>/&lt;plugin&gt;:&lt;skill&gt;</code>.</p>
+
+      <h4>Frontmatter reference</h4>
+      <div class="tbl"><table>
+        <thead><tr><th>Field</th><th>Purpose</th><th>Tip</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td>Identifier; defaults to the folder name.</td><td>kebab-case, matches the folder.</td></tr>
+          <tr><td><code>description</code></td><td>What Devin reads to decide relevance.</td><td>Write it as a trigger: "Use when…". This is the most important line in the file.</td></tr>
+          <tr><td><code>allowed-tools</code></td><td>Restricts tools while active.</td><td><code>Read, Grep, ListDir</code> for safe read-only investigation.</td></tr>
+          <tr><td><code>argument-hint</code></td><td>Shown next to the name.</td><td><code>&lt;environment&gt;</code></td></tr>
+          <tr><td><code>triggers</code></td><td>Who may invoke. Default <code>["user", "model"]</code>.</td><td><code>["user"]</code> for deploys and anything with side effects.</td></tr>
+        </tbody>
+      </table></div>
+      <p>The body supports <code>$ARGUMENTS</code> and <code>$1</code>–<code>$9</code>, plus <code>!`command`</code> blocks that inject live output (branch name, last commit) when invoked. A skill can also ship a <code>workflow.py</code> so a multi-agent workflow becomes reusable.</p>
+
+      <div class="callout warn"><strong class="k">One active skill</strong><p>Only one skill can be active at a time; invoking another replaces it. Don't design skills that depend on composing. Make each one self-contained, and let a short rule say which skill to use when.</p></div>
+
+      <div class="callout tip"><strong class="k">Let Devin write them</strong><p>After Devin figures out how to run or test your app, it proposes a skill in the timeline with a <b>Create PR</b> button. Approve the good ones. Over a few weeks this builds a library of "how to run, test, deploy" skills grounded in what actually worked.</p></div>
+
+      <h3>Rules</h3>
+      <p>Rules are standing guidance. In the web app they live on <b>Customize → Rules</b> at personal, org or enterprise scope; in repos they live in <code>.devin/rules/*.md</code> (one per file) or <code>.devin/global_rules.md</code>. Rule frontmatter supports <code>trigger</code> values <code>always_on</code>, <code>manual</code>, <code>model_decision</code>, <code>agent</code> and <code>glob</code>.</p>
+      <div class="code"><div class="fn"><span>.devin/rules/api-handlers.md</span><button class="copy" type="button">Copy</button></div><pre>---
+description: "HTTP handler conventions"
+trigger: glob
+globs: "services/**/handlers/*.py"
+---
+- Validate input with the pydantic models in schemas/; never parse raw dicts.
+- Return errors via errors.problem() (RFC 9457). Never raise bare HTTPException.
+- Every handler gets a test in tests/unit/handlers/ named test_&lt;handler&gt;.py.</pre></div>
+
+      <h3>Playbooks</h3>
+      <p>A playbook is a custom system prompt for a repeated task, stored in the web app with version history. Attach it when starting a session (or type its <code>!macro</code>); you can edit it inline before sending. Scopes: Organization, Enterprise, and Cognition-maintained System playbooks.</p>
+      <h4>The playbook skeleton</h4>
+      <div class="tbl"><table>
+        <thead><tr><th>Section</th><th>Contains</th></tr></thead>
+        <tbody>
+          <tr><td>Overview</td><td>The outcome in one or two sentences.</td></tr>
+          <tr><td>Required from user</td><td>Inputs Devin can't get itself: ticket, dataset, token.</td></tr>
+          <tr><td>Procedure</td><td>One imperative step per line, setup → work → delivery. Mutually exclusive, collectively exhaustive.</td></tr>
+          <tr><td>Specifications</td><td>Postconditions: what's true when done.</td></tr>
+          <tr><td>Advice</td><td>Corrections to Devin's priors. Step-specific advice goes as a sub-bullet under that step.</td></tr>
+          <tr><td>Forbidden actions</td><td>Hard lines: "Do not modify migrations already merged to main."</td></tr>
+        </tbody>
+      </table></div>
+      <div class="code"><div class="fn"><span>Playbook · !dep-bump</span><button class="copy" type="button">Copy</button></div><pre>## Overview
+Upgrade one third-party dependency to the requested version and leave the repo green.
+
+## Required from user
+- Repository, package name and target version
+
+## Procedure
+1. Read the package's changelog between the current and target versions; list breaking changes.
+2. Update the version constraint in pixi.toml (conda-forge first) and run `pixi install`.
+3. Fix call sites affected by each breaking change.
+   - Search with ripgrep for every symbol named in the changelog.
+4. Run `pixi run ci` and iterate until it exits 0.
+5. Open a PR titled `chore(deps): bump &lt;pkg&gt; to &lt;version&gt;` with the breaking-change list in the body.
+
+## Specifications
+- `pixi run ci` passes; coverage did not drop.
+- pixi.lock is updated in the same commit.
+
+## Advice
+- Prefer the package's documented migration path over shims.
+
+## Forbidden actions
+- Do not pin unrelated packages.
+- Do not use pip or uv.</pre></div>
+
+      <h3>Skill or playbook?</h3>
+      <div class="tbl"><table>
+        <thead><tr><th></th><th>Skills</th><th>Playbooks</th></tr></thead>
+        <tbody>
+          <tr><td>Lives in</td><td>Repo (git) or plugin</td><td>Devin web app</td></tr>
+          <tr><td>Triggered</td><td>Automatically by description, or <code>@skills:</code></td><td>Manually attached at session start</td></tr>
+          <tr><td>Reaches</td><td>Cloud, CLI, Desktop, other Agent Skills tools</td><td>Cloud sessions</td></tr>
+          <tr><td>Created by</td><td>You, or suggested by Devin</td><td>You, or Devin from past sessions on request</td></tr>
+          <tr><td>Best for</td><td>Repo-specific procedures; reusable steps inside many tasks</td><td>Whole-task templates that span repos or teams</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- 07 -->
+    <section class="chapter" id="plugins" data-aud="admin">
+      <header>
+        <div class="num">CHAPTER 07</div>
+        <h2>Plugins and governance</h2>
+        <p class="why">Plugins are how an admin ships context to every engineer at once, across cloud, CLI and Desktop, and how you control what's allowed.</p>
+        <div class="aud"><span class="tag admin">Admin</span></div>
+      </header>
+
+      <p>A plugin is a directory with a <code>.devin-plugin/plugin.json</code> manifest. Everything else is optional.</p>
+      <div class="code"><div class="fn"><span>plugin layout</span></div><pre>my-plugin/
+├── .devin-plugin/plugin.json   <span class="c-com"># name, version, required / optional / forbidden lists</span>
+├── AGENTS.md                   <span class="c-com"># always-on rule; keep it short</span>
+├── rules/                      <span class="c-com"># triggered rules</span>
+├── skills/&lt;name&gt;/SKILL.md      <span class="c-com"># exposed as /my-plugin:&lt;name&gt;</span>
+├── hooks.json                  <span class="c-com"># lifecycle hooks (best effort)</span>
+├── .mcp.json                   <span class="c-com"># MCP servers; secrets as ${NAME}</span>
+└── agents/&lt;name&gt;.md            <span class="c-com"># subagents (CLI / Desktop today)</span></pre></div>
+
+      <h3>The Customize page</h3>
+      <p><b>Customize</b> in the sidebar has five tabs: Plugins, Skills, MCPs, Hooks and Rules, each shown per scope (Personal, Organization, Enterprise) as the <i>effective</i> result after governance. Install from the official marketplace (<code>CognitionAI/devin-marketplace</code>), from a git repo, from a <code>.zip</code>, or create one in the built-in editor. Changes apply to the <b>next</b> session; running sessions keep what they loaded.</p>
+
+      <h3>Scopes and precedence</h3>
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 300" role="img" aria-label="Plugin governance precedence from enterprise down to personal">
+          <defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+          <g font-size="13">
+            <rect x="20" y="20" width="560" height="54" rx="8" class="sigfill"/>
+            <text x="36" y="44" font-weight="600">Enterprise manifest</text><text x="36" y="63" class="t-muted" font-size="12">enterprise admins · reaches every org</text>
+            <rect x="60" y="86" width="520" height="54" rx="8" class="accfill"/>
+            <text x="76" y="110" font-weight="600">Organization manifest</text><text x="76" y="129" class="t-muted" font-size="12">org settings access · that org's sessions + members' CLI</text>
+            <rect x="100" y="152" width="480" height="54" rx="8" class="box"/>
+            <text x="116" y="176" font-weight="600">Repository: .devin/config.json</text><text x="116" y="195" class="t-muted" font-size="12">edited in the repo, reviewed like code</text>
+            <rect x="140" y="218" width="440" height="54" rx="8" class="okfill"/>
+            <text x="156" y="242" font-weight="600">Personal manifest</text><text x="156" y="261" class="t-muted" font-size="12">anyone, for themselves · cloud, CLI, Desktop</text>
+            <path d="M610 30 V262" class="wire" marker-end="url(#ah4)"/>
+            <text x="630" y="60" font-weight="600">Higher authority wins</text>
+            <text x="630" y="84" class="t-muted" font-size="12.5">A lower level can never re-permit what a</text>
+            <text x="630" y="102" class="t-muted" font-size="12.5">higher level forbids, nor remove what it requires.</text>
+            <text x="630" y="140" class="t-mono" font-size="12.5">requiredPlugins   auto-install, recursive</text>
+            <text x="630" y="162" class="t-mono" font-size="12.5">optionalPlugins   endorse / carve-out</text>
+            <text x="630" y="184" class="t-mono" font-size="12.5">forbiddenPlugins  deny, globs allowed</text>
+            <text x="630" y="222" class="t-muted" font-size="12.5">Blocked plugins show under</text>
+            <text x="630" y="240" class="t-muted" font-size="12.5">"Installed but blocked" with the forbidder named.</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+
+      <h3>The recommended pattern: a team marketplace with a meta-plugin</h3>
+      <ol>
+        <li>Fork <a href="https://github.com/CognitionAI/team-marketplace-template" target="_blank" rel="noopener">team-marketplace-template</a>. Keep all your plugins in one private repo under <code>plugins/&lt;name&gt;/</code>.</li>
+        <li>Make the repo root a <b>meta-plugin</b> whose manifest lists your baseline in <code>requiredPlugins</code>.</li>
+        <li>Validate in CI with the bundled <code>node scripts/validate-template.mjs</code>; test locally with <code>devin plugins install --local ./plugins/x</code>.</li>
+        <li>An admin installs the repo once at enterprise or org scope from <b>Customize → Plugins → Add plugin → From repository</b>.</li>
+        <li>Pin by SHA when you want change control; otherwise merging to the tracked branch reaches the next session automatically.</li>
+      </ol>
+      <div class="code"><div class="fn"><span>.devin-plugin/plugin.json (repo root, meta-plugin)</span><button class="copy" type="button">Copy</button></div><pre>{
+  "name": "acme-engineering-baseline",
+  "requiredPlugins": [
+    { "source": "git-subdir", "url": "https://github.com/acme/devin-plugins.git", "path": "plugins/python-standards" },
+    { "source": "git-subdir", "url": "https://github.com/acme/devin-plugins.git", "path": "plugins/security-guardrails" }
+  ],
+  "optionalPlugins": [
+    { "source": "git-subdir", "url": "https://github.com/acme/devin-plugins.git", "path": "plugins/frontend-standards" }
+  ],
+  "forbiddenPlugins": ["untrusted-vendor/*"]
+}</pre></div>
+
+      <div class="callout note"><strong class="k">Lockdown mode</strong><p>To allow only approved plugins, forbid <code>"*"</code> in the enterprise manifest and list approved plugins in required or optional. Only <i>directly listed</i> entries are exempt from the wildcard, so also list every transitive dependency the meta-plugin pulls in.</p></div>
+
+      <h3>Plugin MCPs and secrets</h3>
+      <ul>
+        <li>For OAuth MCPs at org or enterprise scope, <b>Access</b> decides sharing: <b>Organization</b> is one shared connection (use a service account), <b>Personal</b> means each member authorizes their own.</li>
+        <li>Never put secrets in plugin files. Reference them in the manifest <code>env</code> as <code>secret:org:NAME</code>, <code>secret:enterprise:NAME</code>, <code>secret:personal:NAME</code> or <code>secret:repo:owner/repo:NAME</code>.</li>
+        <li>Indexing issues ("Plugin repos unauthorized", "No plugin manifest found", pin conflicts) appear under <b>Plugin settings</b>. Granting repo access to the org is the usual fix.</li>
+      </ul>
+    </section>
+
+    <!-- 08 -->
+    <section class="chapter" id="house" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 08</div>
+        <h2>Worked example: encoding a house style</h2>
+        <p class="why">The same team standard, split across the right mechanisms. Adapt the content; keep the split.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <p>Take a typical Python standard: pixi as the only runner, ruff and strict mypy, structlog instead of <code>print</code>, at least 90% coverage, Conventional Commits, and a single <code>pixi run ci</code> gate. Here is where each piece goes.</p>
+
+      <div class="stack">
+        <div class="row"><div><div class="lvl">Enterprise plugin</div><b>python-standards</b></div><span>Rule (always-on, short) + skills used everywhere</span><span>"pixi only, structlog only, Conventional Commits" + <code>/python-standards:pr-ready</code></span></div>
+        <div class="row"><div><div class="lvl">Repo</div><b>AGENTS.md</b></div><span>Repo-specific non-negotiables and pointers</span><span>Package layout, service names, which skills to use when</span></div>
+        <div class="row"><div><div class="lvl">Repo</div><b>.agents/skills/</b></div><span>Procedures that only make sense here</span><span><code>run-integration-tests</code> (needs Postgres), <code>add-endpoint</code></span></div>
+        <div class="row"><div><div class="lvl">Blueprint</div><b>knowledge</b></div><span>The exact commands</span><span><code>pixi run test</code>, <code>pixi run lint</code>, <code>pixi run ci</code></span></div>
+        <div class="row"><div><div class="lvl">Repo</div><b>REVIEW.md</b></div><span>What reviewers must enforce</span><span>No <code>print()</code>, no bare <code>except</code>, typed public APIs</span></div>
+        <div class="row"><div><div class="lvl">Repo</div><b>DEVIN_PR_TEMPLATE.md</b></div><span>PR body Devin fills in</span><span>Summary, test evidence, CI output, risk</span></div>
+      </div>
+
+      <div class="code"><div class="fn"><span>AGENTS.md</span><button class="copy" type="button">Copy</button></div><pre># AGENTS.md
+
+## Non-negotiables
+- Run everything through pixi: `pixi run test`, `pixi run lint`, `pixi run check`. Never pip, uv, or bare python.
+- Python 3.12+ syntax (`X | Y`, `list[str]`), full type hints, mypy strict.
+- Logging: structlog only. No print(), no stdlib logging.
+- Never `except:` bare; never swallow exceptions.
+- Branches: feature/, bugfix/, hotfix/. Commits: Conventional Commits.
+
+## Definition of done
+`pixi run ci` exits 0 (pre-commit, build, mypy, ruff, pytest with --cov-fail-under=90).
+Every change ships with a test in tests/unit/ or tests/integration/.
+
+## Layout
+- src/&lt;package&gt;/ (src layout); tests mirror it under tests/unit and tests/integration.
+
+## Which skill to use
+- Before opening any PR: @skills:pr-ready
+- Integration tests needing Postgres: @skills:run-integration-tests</pre></div>
+
+      <div class="code"><div class="fn"><span>.agents/skills/pr-ready/SKILL.md</span><button class="copy" type="button">Copy</button></div><pre>---
+name: pr-ready
+description: Use before opening or updating any pull request in this repo. Runs the full CI gate and fixes failures.
+---
+
+## Gate
+1. Run `pixi run fmt`, then stage any files it changed.
+2. Run `pixi run ci`.
+3. If it fails, read the full output, identify the failing step and first error line, apply one focused fix, and re-run from step 1.
+4. If the same error appears 10 times in a row, stop. Summarise the failing step, the exact error, and every attempt in the PR description under "Blocked", and open the PR as draft.
+
+## PR
+1. Title: Conventional Commit matching the branch prefix (feature/ → feat:, bugfix/ → fix:).
+2. Body: fill DEVIN_PR_TEMPLATE.md, paste the tail of the passing `pixi run ci` output.
+
+## Current context
+- Branch: !`git branch --show-current`
+- Changed files: !`git diff --name-only origin/main...HEAD`</pre></div>
+
+      <div class="code"><div class="fn"><span>REVIEW.md</span><button class="copy" type="button">Copy</button></div><pre># Review guidelines
+
+## Critical areas
+- src/*/auth/ and anything touching credentials: check for secrets in code or logs.
+- Database migrations must be backward compatible with the previous release.
+
+## Conventions
+- Flag any print() or `import logging`; structlog is required.
+- Flag bare `except:` and `except X: pass`.
+- Public functions need type hints and Google-style docstrings.
+
+## Ignore
+- pixi.lock unless pixi.toml also changed.
+- Generated files under src/*/_generated/.</pre></div>
+
+      <div class="callout tip"><strong class="k">Start with what you have</strong><p>If your repos already carry a CLAUDE.md or Cursor rules, Devin and Devin Review already read them. Migrate gradually: move procedures into skills, shrink the always-on file, and add REVIEW.md where review needs differ from authoring rules.</p></div>
+    </section>
+
+    <!-- 09 -->
+    <section class="chapter" id="environment" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 09</div>
+        <h2>The environment: blueprints, builds, snapshots</h2>
+        <p class="why">Cognition calls environment configuration the single highest-leverage thing you can do. A Devin that can't run your tests can't check its own work.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <div class="tbl"><table>
+        <thead><tr><th>Concept</th><th>What it is</th><th>Docker analogy</th></tr></thead>
+        <tbody>
+          <tr><td>Blueprint</td><td>YAML: tools to install, deps to keep current, commands to know</td><td>Dockerfile</td></tr>
+          <tr><td>Build</td><td>Runs blueprints, clones repos, produces a snapshot</td><td><code>docker build</code></td></tr>
+          <tr><td>Snapshot</td><td>Frozen bootable VM image. One active per org.</td><td>Image</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Build order</h3>
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 230" role="img" aria-label="Build pipeline order">
+          <defs><marker id="ah5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+          <g font-size="12.5">
+            <rect x="10" y="30" width="130" height="80" rx="8" class="sigfill"/><text x="75" y="58" text-anchor="middle" font-weight="600">Enterprise</text><text x="75" y="76" text-anchor="middle" class="t-muted" font-size="11.5">initialize</text><text x="75" y="92" text-anchor="middle" class="t-muted" font-size="11.5">maintenance · in ~</text>
+            <rect x="160" y="30" width="130" height="80" rx="8" class="accfill"/><text x="225" y="58" text-anchor="middle" font-weight="600">Organization</text><text x="225" y="76" text-anchor="middle" class="t-muted" font-size="11.5">initialize</text><text x="225" y="92" text-anchor="middle" class="t-muted" font-size="11.5">maintenance · in ~</text>
+            <rect x="310" y="30" width="130" height="80" rx="8" class="box"/><text x="375" y="58" text-anchor="middle" font-weight="600">Clone repos</text><text x="375" y="76" text-anchor="middle" class="t-muted" font-size="11.5">up to 10 at once</text><text x="375" y="92" text-anchor="middle" class="t-muted" font-size="11.5">clone overrides</text>
+            <rect x="460" y="30" width="130" height="80" rx="8" class="okfill"/><text x="525" y="58" text-anchor="middle" font-weight="600">Each repo</text><text x="525" y="76" text-anchor="middle" class="t-muted" font-size="11.5">initialize</text><text x="525" y="92" text-anchor="middle" class="t-muted" font-size="11.5">maintenance · ~/repos/x</text>
+            <rect x="610" y="30" width="130" height="80" rx="8" class="box"/><text x="675" y="58" text-anchor="middle" font-weight="600">post-build</text><text x="675" y="76" text-anchor="middle" class="t-muted" font-size="11.5">org then enterprise</text><text x="675" y="92" text-anchor="middle" class="t-muted" font-size="11.5">non-zero = fail</text>
+            <rect x="760" y="30" width="190" height="80" rx="8" class="box"/><text x="855" y="58" text-anchor="middle" font-weight="600">Health check</text><text x="855" y="76" text-anchor="middle" class="t-muted" font-size="11.5">→ snapshot saved</text><text x="855" y="92" text-anchor="middle" class="t-muted" font-size="11.5">sessions boot copies</text>
+            <path d="M140 70 H157" class="wire" marker-end="url(#ah5)"/><path d="M290 70 H307" class="wire" marker-end="url(#ah5)"/><path d="M440 70 H457" class="wire" marker-end="url(#ah5)"/><path d="M590 70 H607" class="wire" marker-end="url(#ah5)"/><path d="M740 70 H757" class="wire" marker-end="url(#ah5)"/>
+            <text x="20" y="150" class="t-muted" font-size="12.5">Layers are additive: repo steps can use tools installed above them; they cannot override them.</text>
+            <text x="20" y="172" class="t-muted" font-size="12.5">Triggers: blueprint save, repo list change, new repo secret, manual "Build snapshot", ~24 h refresh, approved Devin suggestion.</text>
+            <text x="20" y="194" class="t-muted" font-size="12.5">Only one build at a time; a new trigger cancels the queued one. Each step times out after 3 hours.</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+
+      <h3>Blueprint sections</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Section</th><th>Runs</th><th>Put here</th></tr></thead>
+        <tbody>
+          <tr><td><code>initialize</code></td><td>Builds only; saved in snapshot</td><td>Runtimes, system packages, global CLIs</td></tr>
+          <tr><td><code>maintenance</code></td><td>Builds; shown to Devin at session start (not auto-run)</td><td>Fast, incremental dependency installs; credential config files</td></tr>
+          <tr><td><code>knowledge</code></td><td>Never executed; loaded into context for that repo</td><td>Exact lint, test, build commands</td></tr>
+          <tr><td><code>post-build</code></td><td>Org/enterprise only, after everything</td><td>Assertions on the assembled machine</td></tr>
+          <tr><td><code>clone</code></td><td>Repo only, at clone</td><td>Non-default branch, path, skip submodules or LFS</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="code"><div class="fn"><span>Repository blueprint (pixi project)</span><button class="copy" type="button">Copy</button></div><pre><span class="c-key">initialize</span>: |
+  curl -fsSL https://pixi.sh/install.sh | bash
+
+<span class="c-key">maintenance</span>: |
+  <span class="c-com"># incremental and non-interactive; Devin may re-run this after pulling</span>
+  ~/.pixi/bin/pixi install
+
+<span class="c-key">knowledge</span>:
+  - name: test
+    contents: pixi run test
+  - name: lint
+    contents: pixi run lint &amp;&amp; pixi run check
+  - name: full gate
+    contents: pixi run ci   <span class="c-com"># must exit 0 before any PR</span></pre></div>
+      <p style="font-size:.9rem;color:var(--muted)">Check PATH handling against Cognition's template library (the <code>$ENVRC</code> pattern) before relying on this verbatim.</p>
+
+      <h3>Where configuration goes (enterprise)</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Tier</th><th>Rule of thumb</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Enterprise</td><td>Default for anything shared</td><td>Language runtimes, corporate CA certs, proxy config, internal CLIs, shared registry auth, scanners</td></tr>
+          <tr><td>Organization</td><td>Only for things that must <i>not</i> reach every org</td><td>A team-only private registry</td></tr>
+          <tr><td>Repository</td><td>Anything that runs in the repo directory</td><td><code>pixi install</code>, <code>npm install</code>, repo knowledge</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout warn"><strong class="k">Two classic mistakes</strong><p>Repo commands like <code>npm install</code> in an enterprise or org blueprint run in <code>~</code>, not the repo, and fail. A secret written to a config file during <code>initialize</code> persists in the snapshot; write credentials in <code>maintenance</code>, which reruns every build.</p></div>
+
+      <h3>Operating it</h3>
+      <ul>
+        <li><b>Fastest start:</b> open a session and say "Set up your environment for this repo." Approve the suggestion cards; a build runs.</li>
+        <li><b>Build statuses:</b> Success, Partial (some repo steps failed but snapshot usable), Failed (org/enterprise step, clone, or health check failed), Cancelled.</li>
+        <li><b>Pinning:</b> lock to a Success or Partial build under 7 days old. Pins never expire, so unpin after the release or debug window.</li>
+        <li><b>Git-backed:</b> store <code>.devin/blueprint.yaml</code> in the repo and sync via API or UI after merge, so blueprint changes go through code review.</li>
+        <li><b>Browser logins:</b> log in once in the session browser, ask Devin to "save the browser profile", approve the blueprint change.</li>
+        <li><b>Other platforms:</b> Windows sessions (~9% more usage), macOS sessions with iOS Simulator, Android emulator, VPN, and self-hosted <b>Outposts</b>.</li>
+      </ul>
+    </section>
+
+    <!-- 10 -->
+    <section class="chapter" id="review" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 10</div>
+        <h2>Devin Review and closing the loop</h2>
+        <p class="why">When agents write the code, review becomes the bottleneck. Devin Review plus Auto-Fix lets PRs arrive close to merge-ready.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <p>Devin Review reorganizes a PR into logically grouped diffs with explanations, detects moved code, runs a <b>bug catcher</b> (severe and non-severe bugs, investigate and informational flags), and runs a <b>security scan</b> on every review (injection, auth flaws, secrets exposure, SSRF, weak crypto and more, with CWE IDs). You can chat about the PR and have the chat agent commit fixes.</p>
+
+      <h3>Ways in</h3>
+      <ul>
+        <li><a href="https://app.devin.ai/review" target="_blank" rel="noopener">app.devin.ai/review</a> lists PRs assigned to you, authored by you, and awaiting your review.</li>
+        <li>Comment <code>/devin review</code> on a PR in a connected repo.</li>
+        <li>Swap <code>github.com</code> for <code>devinreview.com</code> in any GitHub.com PR URL.</li>
+        <li>Paste a GitHub Enterprise, GitLab or Azure DevOps PR URL into the review page. Bitbucket isn't supported.</li>
+      </ul>
+
+      <h3>Auto-review trigger modes</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Mode</th><th>Runs on</th><th>Set by</th></tr></thead>
+        <tbody>
+          <tr><td>Auto review</td><td>PR opened, new commits, draft marked ready</td><td>Repo (admin) or user</td></tr>
+          <tr><td>On PR creation</td><td>PR opened or marked ready only</td><td>Repo (admin) or user</td></tr>
+          <tr><td>Manual</td><td>Only when you click</td><td>User only</td></tr>
+        </tbody>
+      </table></div>
+      <p>When a repo and a user enrollment both match, the most permissive mode wins. Any user with a connected GitHub account can self-enroll in <b>Settings → Preferences</b>.</p>
+
+      <h3>Teaching the reviewer</h3>
+      <p>Devin Review reads <code>**/REVIEW.md</code>, <code>**/AGENTS.md</code>, <code>**/CLAUDE.md</code>, <code>**/CONTRIBUTING.md</code>, <code>.cursorrules</code>, <code>.windsurfrules</code>, <code>.cursor/rules</code>, <code>*.rules</code>, <code>*.mdc</code>, <code>.coderabbit.yaml</code> and <code>greptile.json</code>. Files are scoped to their directory, so <code>src/payments/REVIEW.md</code> applies only under <code>src/payments/</code>. Admins can add extra globs under <b>Settings → Review → Review Rules</b>, for example <code>docs/adr/**/*.md</code>.</p>
+
+      <h3>Auto-Fix</h3>
+      <p>With Auto-Fix on, Devin responds to review findings and CI failures on its own PRs. Enable it from the review sidebar on a Devin PR, or under <b>Settings → Devin → Pull requests → Responding to bots</b> by allow-listing <code>devin-ai-integration[bot]</code>. Org admin only.</p>
+
+      <h3>Admin controls</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Control</th><th>Where</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Repos auto-reviewed</td><td>Settings → Review → Repositories</td><td>Review every PR on critical repos</td></tr>
+          <tr><td>What gets posted</td><td>Settings → Review → Post as PR comments</td><td>Bugs and security on by default; flags off. Optional CI status check.</td></tr>
+          <tr><td>Per-PR auto-review spend limit</td><td>Settings → Review → Auto-review limits</td><td>Stops high-churn PRs eating ACUs; manual reviews still work</td></tr>
+          <tr><td>Who gets which tier</td><td>Custom roles (manual / on-creation / full / manage)</td><td>Roll out by group</td></tr>
+          <tr><td>Consumption</td><td>Settings → Consumption (Review line, per user, per repo)</td><td>See cost and bugs caught per repo</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout note"><strong class="k">Process stays human</strong><p>Devin's PRs are subject to the same branch protections as anyone's. Configure required reviewers so a human approves every Devin PR before merge. Devin never comments or commits as a user without that user initiating it.</p></div>
+    </section>
+
+    <!-- 11 -->
+    <section class="chapter" id="scale" data-aud="user">
+      <header>
+        <div class="num">CHAPTER 11</div>
+        <h2>Parallel work: managed Devins and workflows</h2>
+        <p class="why">Devin's biggest returns come from many small, verifiable slices run at once, not from one heroic session.</p>
+        <div class="aud"><span class="tag user">User</span></div>
+      </header>
+
+      <div class="vs">
+        <div class="bad"><h4>Tall and deep</h4><p>Complex net-new features, even repetitive ones. Lower reliability at scale; each run needs judgment.</p></div>
+        <div class="good"><h4>Wide and shallow</h4><p>Many simple, isolated, verifiable slices: one file, module or notebook each, under ~90 minutes of human work, backwards compatible, independently mergeable. Highly reliable.</p></div>
+      </div>
+
+      <h3>Three ways to parallelize</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Approach</th><th>How</th><th>Use when</th></tr></thead>
+        <tbody>
+          <tr><td>Several plain sessions</td><td>Start them yourself, or via API</td><td>Two or three unrelated tasks</td></tr>
+          <tr><td>Managed Devins</td><td>"Spin up a managed Devin per module using the !test-coverage playbook"</td><td>A coordinator should scope, launch, monitor, resolve conflicts and compile results</td></tr>
+          <tr><td>Dynamic workflow</td><td>"Use a workflow to…"; Devin writes a deterministic Python script with <code>agent()</code>, <code>pipeline()</code>, <code>parallel()</code></td><td>Five or more units with a combine step, or staged audit → fix → verify pipelines. Resumable for up to 7 days.</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout warn"><strong class="k">Cost</strong><p>Every child agent is a full session. Run a workflow on a slice (one directory, three modules) first and check ACUs in the workflow panel. Use a cheaper mode for high-volume classification stages. Enterprise admins must switch on <b>Dynamic workflows</b> in Enterprise Settings → Devin before anyone can use them.</p></div>
+
+      <p>Once a workflow works, ask Devin to save it as a skill (<code>workflow.py</code> next to <code>SKILL.md</code>) so the next run reuses the script instead of writing a new one.</p>
+    </section>
+
+    <!-- 12 -->
+    <section class="chapter" id="automations" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 12</div>
+        <h2>Automations</h2>
+        <p class="why">Define the trigger once and Devin handles each event as it arrives. This is how Devin becomes part of the team's operating rhythm.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 170" role="img" aria-label="Automation anatomy: trigger, conditions, preflight, action">
+          <defs><marker id="ah6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+          <g font-size="13">
+            <rect x="10" y="30" width="210" height="90" rx="10" class="sigfill"/><text x="115" y="58" text-anchor="middle" font-weight="600">Trigger(s)</text><text x="115" y="78" text-anchor="middle" class="t-muted" font-size="12">Slack · GitHub · GitLab · Jira</text><text x="115" y="94" text-anchor="middle" class="t-muted" font-size="12">Linear · PagerDuty · Pylon</text><text x="115" y="110" text-anchor="middle" class="t-muted" font-size="12">schedule · webhook (OR'd)</text>
+            <rect x="250" y="30" width="200" height="90" rx="10" class="box"/><text x="350" y="58" text-anchor="middle" font-weight="600">Conditions</text><text x="350" y="80" text-anchor="middle" class="t-muted" font-size="12">label = bug, repo = x,</text><text x="350" y="96" text-anchor="middle" class="t-muted" font-size="12">conclusion = failure</text>
+            <rect x="480" y="30" width="200" height="90" rx="10" class="box" stroke-dasharray="5 4"/><text x="580" y="58" text-anchor="middle" font-weight="600">Preflight (optional)</text><text x="580" y="80" text-anchor="middle" class="t-muted" font-size="12">Python / Node / Bash, 1–300 s</text><text x="580" y="96" text-anchor="middle" class="t-muted" font-size="12">run, skip, or emit items</text>
+            <rect x="710" y="30" width="240" height="90" rx="10" class="okfill"/><text x="830" y="58" text-anchor="middle" font-weight="600">Action</text><text x="830" y="80" text-anchor="middle" class="t-muted" font-size="12">start session · message session</text><text x="830" y="96" text-anchor="middle" class="t-muted" font-size="12">triage Devin · email</text>
+            <path d="M220 75 H247" class="wire" marker-end="url(#ah6)"/><path d="M450 75 H477" class="wire" marker-end="url(#ah6)"/><path d="M680 75 H707" class="wire" marker-end="url(#ah6)"/>
+            <text x="480" y="152" text-anchor="middle" class="t-muted" font-size="12">Guarded by per-session ACU limit, invocation rate limit (default 50/hour), and a network policy.</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+
+      <h3>Starter automations worth building</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Name</th><th>Trigger</th><th>Prompt sketch</th></tr></thead>
+        <tbody>
+          <tr><td>Fix red CI</td><td>GitHub check run, <code>conclusion = failure</code></td><td>"Read the failing job log, reproduce locally with <code>pixi run ci</code>, push a fix to the same branch. If it isn't caused by this PR, comment and stop."</td></tr>
+          <tr><td>Ticket to PR</td><td>Jira or Linear, label <code>devin</code> added</td><td>"Implement the ticket. Use @skills:pr-ready. Link the PR on the ticket."</td></tr>
+          <tr><td>Sentry sweep</td><td>Schedule, weekdays 08:00</td><td>"Query Sentry MCP for new unresolved errors in the last 24h, group duplicates, open one PR per fixable root cause."</td></tr>
+          <tr><td>Bug triage</td><td>Triage Devin on <code>#bugs</code></td><td>Template "Triage Bug Reports" with a setup prompt naming priorities and owners.</td></tr>
+          <tr><td>Incident first look</td><td>PagerDuty high-urgency triggered</td><td>"Pull Datadog traces around the alert window, identify the deploy or change most likely responsible, post findings in the incident channel."</td></tr>
+          <tr><td>Weekly hygiene</td><td>Schedule, Monday 09:00</td><td>"Review new skill and rule suggestions, flag duplicates or conflicts, summarise for the platform team."</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Details that matter</h3>
+      <ul>
+        <li><b>Preflight scripts</b> read <code>EVENT_FILE</code>, <code>STATE_FILE</code> (64 KiB, persists between runs) and <code>LAST_RUN_FILE</code>, and must write <code>{"run": true|false}</code> or <code>{"items": [...]}</code> to <code>OUTPUT_FILE</code>. Items fan out into one session each. <b>Run now</b> bypasses preflight.</li>
+        <li><b>Webhooks</b> authenticate with a secret shown once; send it in the <code>X-Webhook-Secret</code> header, not the query string. Payloads over 200 KB are truncated.</li>
+        <li><b>Public repos:</b> GitHub automations only fire on private repos unless an admin widens a connection's automation scope. Strangers can comment on public repos, so keep it that way unless you have a strong reason.</li>
+        <li><b>Untrusted input</b> (Slack, webhooks, tickets) should run under a restrictive network policy or security profile.</li>
+        <li><b>Schedules</b> are now a trigger type; the old Scheduled Sessions page is legacy. Times display locally and are stored in UTC.</li>
+        <li><b>Run as:</b> automations run as the Automations service unless a user has <b>Run Personal Automations</b>.</li>
+        <li><b>Infrastructure as code:</b> automations can be managed declaratively with a Terraform provider.</li>
+      </ul>
+
+      <h3>Auto-triage</h3>
+      <p>A persistent parent Devin watches one Slack channel, filters noise, deduplicates, and spawns child Devins that trace root cause, post a diagnosis in-thread and tag the code owner. Parent and children share a <b>scratchpad</b>: recently triaged items, a routing table of code areas to owners, and known duplicates. Correct a mis-route in the thread and it updates the table. Start with a dedicated bug channel, connect Sentry or Datadog MCPs, and set ACU and invocation limits.</p>
+    </section>
+
+    <!-- 13 -->
+    <section class="chapter" id="integrations" data-aud="admin">
+      <header>
+        <div class="num">CHAPTER 13</div>
+        <h2>Integrations and MCP</h2>
+        <p class="why">Three different mechanisms connect Devin to the outside world. Using the right one avoids credential sprawl.</p>
+        <div class="aud"><span class="tag admin">Admin</span></div>
+      </header>
+
+      <div class="tbl"><table>
+        <thead><tr><th>Mechanism</th><th>Gives Devin</th><th>Set up at</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Native integrations</td><td>Repo access, session entry points, built-in workflows</td><td>Settings → Connections</td><td>GitHub (App, not PAT, for write features), GitLab, Bitbucket, Azure DevOps, Slack, Teams, Jira, Linear, PagerDuty</td></tr>
+          <tr><td>Plugins / MCP servers</td><td>Tools to query and act inside external services</td><td>Customize → Plugins, Customize → MCPs</td><td>Sentry, Datadog, Notion, Confluence, Figma, Postgres, Snowflake, Databricks, MongoDB</td></tr>
+          <tr><td>Secrets</td><td>Credentials for CLIs, scripts, browser logins</td><td>Settings → Secrets, blueprint Secrets tab</td><td>Registry tokens, service-account API keys, TOTP, site cookies</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Secrets scopes</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Scope</th><th>Visible to</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Enterprise</td><td>All orgs</td><td>Shared registry and proxy credentials. Define once, high up.</td></tr>
+          <tr><td>Organization</td><td>All members' sessions; only admins can view or edit</td><td>Usable by every member, so scope accordingly</td></tr>
+          <tr><td>Repository</td><td>That repo's builds and sessions</td><td>Needs ManageOrgSecrets. Never written into the snapshot.</td></tr>
+          <tr><td>Personal</td><td>Your sessions only</td><td>Your own accounts and test credentials</td></tr>
+          <tr><td>Session</td><td>That session only</td><td>When Devin asks mid-session</td></tr>
+        </tbody>
+      </table></div>
+      <p>More specific beats less specific when names collide: repo over org over enterprise. Secrets aren't exported into every shell; Devin binds them to the commands that need them, so tell Devin which env var a script reads. Give Devin its own accounts (for example a dedicated <code>devin@</code> service user) and add a <b>note</b> to each secret describing where it may be used.</p>
+    </section>
+
+    <!-- 14 -->
+    <section class="chapter" id="admin" data-aud="admin">
+      <header>
+        <div class="num">CHAPTER 14</div>
+        <h2>Admin: organizations and access</h2>
+        <p class="why">Org boundaries decide which repos Devin can see together, whose snapshot it boots, and where cost lands. Get them roughly right early.</p>
+        <div class="aud"><span class="tag admin">Admin</span></div>
+      </header>
+
+      <h3>Structure</h3>
+      <p>An enterprise contains organizations. Each org has its own repos (granted by enterprise admins), its own snapshot, its own members, and its own ACU limits. All org members can access all of that org's repos. Users can belong to several orgs. The <b>primary organization</b> holds enterprise-wide settings such as enterprise knowledge and Review settings.</p>
+      <div class="code"><div class="fn"><span>Recommended mapping: one Devin org per GitHub team / IdP group</span></div><pre>Enterprise
+├── Payments Platform     ← GitHub team payments-team    · IdP product-payments
+│   └── repos: payments-api, ledger, refunds-worker
+├── Data Platform         ← GitHub team data-eng         · IdP eng-data
+│   └── repos: pipelines, warehouse-models, airflow-dags
+└── Platform &amp; Security   ← GitHub team platform-infra   · IdP eng-platform
+    └── repos: infra, deploy-scripts, security-tools</pre></div>
+      <p>Decide with three questions: which teams collaborate on the same code, which repos must be visible together, and how you budget. A shared repo needed by two teams is a reason to put them in one org.</p>
+
+      <h3>Default roles</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Level</th><th>Role</th><th>Can</th></tr></thead>
+        <tbody>
+          <tr><td>Org</td><td>Admin</td><td>Everything in the org</td></tr>
+          <tr><td>Org</td><td>Member</td><td>Use Devin; manage day-to-day resources (knowledge, playbooks, secrets, snapshots); not membership or org settings</td></tr>
+          <tr><td>Org</td><td>DeepWiki Only</td><td>DeepWiki and Ask Devin, no sessions. Good for broad read-only rollout.</td></tr>
+          <tr><td>Enterprise</td><td>Admin</td><td>Everything across the enterprise</td></tr>
+          <tr><td>Enterprise</td><td>Member</td><td>Standard access in their orgs</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Custom roles worth creating</h3>
+      <p>Create them in <b>Enterprise Settings → Membership → Roles</b> (needs Manage Account Membership), then map IdP groups to them under <b>Groups (IdP)</b> so access follows your directory. One role per user per org, plus one account-level role.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Role idea</th><th>Key permissions</th></tr></thead>
+        <tbody>
+          <tr><td>Devin Champion (per org)</td><td>Use Sessions, Manage Playbooks, Manage Knowledge, Manage Repo Blueprints, Manage Schedules, Manage Automations, View Sessions, View Metrics</td></tr>
+          <tr><td>Environment Steward</td><td>Manage Org Blueprints, Manage Repo Blueprints, Manage Secrets, Index Repositories</td></tr>
+          <tr><td>Reviewer-only</td><td>Use DeepWiki, Use Ask Devin, Devin Review (manual)</td></tr>
+          <tr><td>Automation Owner</td><td>Manage Automations, Run Personal Automations, Manage MCP Servers</td></tr>
+          <tr><td>Auditor (account)</td><td>View Audit Logs, View Account Consumption, View Account Metrics, View Sessions</td></tr>
+        </tbody>
+      </table></div>
+      <p>Also on the admin list: SSO (Okta, Entra ID, SAML, OIDC), SCIM provisioning, IP access lists, customer-managed keys, service users for API automation, and audit logs.</p>
+    </section>
+
+    <!-- 15 -->
+    <section class="chapter" id="security" data-aud="admin">
+      <header>
+        <div class="num">CHAPTER 15</div>
+        <h2>Admin: security controls</h2>
+        <p class="why">Devin runs code, browses the web and holds credentials. Security profiles and guardrails let you set a floor no session can go below.</p>
+        <div class="aud"><span class="tag admin">Admin</span></div>
+      </header>
+
+      <h3>Security profiles</h3>
+      <p>A profile is a named bundle of up to four restrictions: a <b>network allowlist</b> (hostnames with <code>*</code>, CIDRs), an <b>MCP allowlist</b>, <b>Devin MCP read-only</b>, <b>git access</b> (read-only or full), and removal of the <b>GitHub CLI token</b>. Profiles exist at org and enterprise scope.</p>
+
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 250" role="img" aria-label="Security profile binding hierarchy">
+          <defs><marker id="ah7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+          <g font-size="13">
+            <rect x="10" y="40" width="170" height="70" rx="8" class="sigfill"/><text x="95" y="70" text-anchor="middle" font-weight="600">Enterprise default</text><text x="95" y="90" text-anchor="middle" class="t-muted" font-size="12">broadest</text>
+            <rect x="200" y="40" width="170" height="70" rx="8" class="accfill"/><text x="285" y="70" text-anchor="middle" font-weight="600">Org default</text>
+            <rect x="390" y="40" width="170" height="70" rx="8" class="box"/><text x="475" y="70" text-anchor="middle" font-weight="600">Automations default</text>
+            <rect x="580" y="40" width="170" height="70" rx="8" class="box"/><text x="665" y="70" text-anchor="middle" font-weight="600">One automation</text>
+            <rect x="770" y="40" width="180" height="70" rx="8" class="okfill"/><text x="860" y="70" text-anchor="middle" font-weight="600">Session</text><text x="860" y="90" text-anchor="middle" class="t-muted" font-size="12">most specific</text>
+            <path d="M180 75 H197" class="wire" marker-end="url(#ah7)"/><path d="M370 75 H387" class="wire" marker-end="url(#ah7)"/><path d="M560 75 H577" class="wire" marker-end="url(#ah7)"/><path d="M750 75 H767" class="wire" marker-end="url(#ah7)"/>
+            <text x="10" y="148" font-weight="600">Recommended profile</text>
+            <text x="10" y="168" class="t-muted" font-size="12.5">Most specific binding wins. Lower levels can pin another profile or choose "No profile".</text>
+            <text x="10" y="200" font-weight="600">Mandatory profile</text>
+            <text x="10" y="220" class="t-muted" font-size="12.5">A floor. Opt-outs are ignored; lower profiles are intersected (allowlists narrow, read-only wins, token removed if either removes it).</text>
+            <text x="10" y="240" class="t-muted" font-size="12.5">Domains approved mid-session are clamped to the mandatory policy. Child sessions inherit the parent's chain.</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+      <p>Profiles resolve when a session boots or wakes, so edits don't reach running sessions until they sleep and wake. Managing profiles needs the separate <b>Manage security profiles</b> permission.</p>
+      <div class="callout tip"><strong class="k">A sensible starting posture</strong><p>Enterprise default (recommended, not mandatory at first): network allowlist covering your git host, package registries, internal domains and docs sites. A stricter <b>mandatory</b> profile on the automations default for anything fed by Slack, webhooks or tickets. Read-only git for research-only automations.</p></div>
+
+      <h3>AI Guardrails</h3>
+      <p>Enterprise-wide screening of user messages, follow-ups and PR comments for prompt injection, data exfiltration and policy violations. Each preset guardrail is Off, Log only, Warn user or Block message. Violations appear in a dashboard, in audit logs as <code>ai_guardrail_violation</code>, and via API. Start with Log only for two weeks, review the Violations tab, then move high-confidence guardrails to Warn or Block.</p>
+
+      <h3>Other controls</h3>
+      <ul>
+        <li><b>Plugin governance:</b> hide the official marketplace, restrict marketplace MCPs, forbid plugins by glob, or lock down to an allow-list (chapter 07).</li>
+        <li><b>Local agent controls:</b> enterprise policy for Devin CLI and Desktop, including disabling CLI plugins entirely. Under <b>Settings → Enterprise → Devin Desktop</b> you can allowlist models (include the Fusion family and its sidekicks if you want Fusion available), pin a team-wide default model, enforce terminal permissions and the sandbox, and gate web search and MCP servers. The allowlist always beats the default: a pinned default that isn't allowed falls back to the built-in one. A user's own <code>/model</code> choice persists for their later sessions.</li>
+        <li><b>Adaptive router:</b> disabled by default for enterprises; enable <b>Adaptive model router</b> under Settings → Devin Desktop → Models before users can pick it.</li>
+        <li><b>Attribution filtering</b> and the <b>Trust Center</b> for compliance reviews.</li>
+        <li><b>Devin Coach blockers:</b> recurring runtime blockers (blocked network, missing permissions) show which single fix would unblock the most sessions.</li>
+      </ul>
+    </section>
+
+    <!-- 16 -->
+    <section class="chapter" id="cost" data-aud="admin">
+      <header>
+        <div class="num">CHAPTER 16</div>
+        <h2>Admin: usage and cost</h2>
+        <p class="why">Cost tracks the quality of how Devin is used. The same habits that cut ACUs also improve results.</p>
+        <div class="aud"><span class="tag admin">Admin</span></div>
+      </header>
+
+      <h3>What consumes ACUs</h3>
+      <p>Actions Devin takes (planning, context gathering, execution, browsing) plus a small amount of VM time and bandwidth. Little or nothing is consumed while Devin waits for you, waits on a test suite, clones repos, or sleeps. Drivers: task complexity, prompt specificity, codebase size, files touched, runtime, conversation length and back-and-forth.</p>
+
+      <h3>The control stack</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Control</th><th>Caps</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Org ACU limit</td><td>An org's total</td><td>Use orgs as pooled budgets</td></tr>
+          <tr><td>Usage policies (beta)</td><td>Each member, monthly; local + cloud combined</td><td>Tiers by IdP group; resolved as direct assignment → highest-priority mapped tier → default tier</td></tr>
+          <tr><td>Per-member override</td><td>One person, temporary or permanent</td><td>Blast-radius preview before lowering limits</td></tr>
+          <tr><td>Approval policy</td><td>Requests for more</td><td>Manual, always approve to a ceiling, or approve based on efficiency score</td></tr>
+          <tr><td>Automation limits</td><td>Per-session ACUs and invocations/hour</td><td>Set on every automation</td></tr>
+          <tr><td>Review spend limit</td><td>Auto-review ACUs per PR</td><td>Review is excluded from per-user limits but counts toward org limits</td></tr>
+          <tr><td>Managed Devin limits</td><td>Per child session</td><td>The coordinator can set ACU limits on children</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Model choice is a cost lever too</h3>
+      <p>Usage policies combine local and cloud usage, so what people pick in Devin CLI and Desktop shows up in the same budget. <b>Fusion</b> is the main lever: routine implementation tokens move to the cheaper sidekick while the frontier lead keeps the hard reasoning. On the Cognition platform both models' tokens are metered in ACUs at their own rates. Two admin facts to know before you recommend it:</p>
+      <ul>
+        <li>Fusion isn't available on <b>legacy credits billing</b>. If your enterprise is still on credits, it won't appear in the picker until you move plans.</li>
+        <li>Make Fusion the team default only after a short bake-off: have champions run similar tasks on Fusion and on a single frontier model and compare <code>/session-stats</code> cost alongside PR quality.</li>
+      </ul>
+      <p>Either the org limit or the per-user limit blocks new work when hit. Start tier setup with <b>Set up with recommendations</b>: it analyzes three billing cycles of per-member usage and simulates who would be blocked.</p>
+
+      <h3>Devin Coach</h3>
+      <p>Checks prompts in the input box before they're sent and suggests fixes: plan first for big open-ended builds, switch off a heavyweight mode for small tasks, start a new session for unrelated follow-ups, split bundled tasks into child sessions, clear non-work prompts. Set <b>Prompt precheck</b> to Warning only (default), Warning and confirmation, or Off. Analytics show acceptance rates per suggestion type.</p>
+
+      <h3>Where to look</h3>
+      <ul>
+        <li><b>Settings → Consumption</b> (enterprise) and <b>Consumption Analytics</b> (org), with a Review line.</li>
+        <li><b>Session Insights</b> per session: size, issues, improved prompt.</li>
+        <li><b>My analytics</b> for individuals, including efficiency score (needs the View Personal Analytics permission and feature flag).</li>
+      </ul>
+    </section>
+
+    <!-- 17 -->
+    <section class="chapter" id="flywheel" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 17</div>
+        <h2>The improvement loop</h2>
+        <p class="why">Devin gets better at your codebase only if you turn each session's lessons into durable context. This loop is the SME's main job.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+
+      <figure class="diagram">
+        <div class="scroll">
+        <svg viewBox="0 0 960 330" role="img" aria-label="Improvement loop: run, inspect, diagnose, encode, repeat">
+          <defs><marker id="ah8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead-acc"/></marker></defs>
+          <g font-size="13">
+            <rect x="380" y="16" width="200" height="66" rx="10" class="box"/><text x="480" y="44" text-anchor="middle" font-weight="600">1 · Run sessions</text><text x="480" y="64" text-anchor="middle" class="t-muted" font-size="12">real tasks, real repos</text>
+            <rect x="700" y="132" width="230" height="66" rx="10" class="box"/><text x="815" y="160" text-anchor="middle" font-weight="600">2 · Session Insights</text><text x="815" y="180" text-anchor="middle" class="t-muted" font-size="12">size, issues, knowledge usage</text>
+            <rect x="380" y="248" width="200" height="66" rx="10" class="box"/><text x="480" y="276" text-anchor="middle" font-weight="600">3 · Diagnose the layer</text><text x="480" y="296" text-anchor="middle" class="t-muted" font-size="12">prompt? env? context? scope?</text>
+            <rect x="30" y="132" width="230" height="66" rx="10" class="accfill"/><text x="145" y="160" text-anchor="middle" font-weight="600">4 · Encode the fix</text><text x="145" y="180" text-anchor="middle" class="t-muted" font-size="12">skill, rule, blueprint, playbook</text>
+            <path d="M580 50 C 720 50, 815 80, 815 129" class="wire-acc" marker-end="url(#ah8)"/>
+            <path d="M815 198 C 815 260, 700 281, 583 281" class="wire-acc" marker-end="url(#ah8)"/>
+            <path d="M380 281 C 240 281, 145 250, 145 201" class="wire-acc" marker-end="url(#ah8)"/>
+            <path d="M145 132 C 145 80, 240 50, 377 50" class="wire-acc" marker-end="url(#ah8)"/>
+            <text x="480" y="150" text-anchor="middle" class="t-head" font-size="18">Each lap makes</text>
+            <text x="480" y="174" text-anchor="middle" class="t-head" font-size="18">the next session smaller</text>
+          </g>
+        </svg>
+        </div>
+      </figure>
+
+      <h3>Reading the symptoms</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Symptom in Insights</th><th>Likely layer</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>High ACUs, few user messages</td><td>Environment or scope</td><td>Check Action Items; add missing tools to the blueprint; split the task</td></tr>
+          <tr><td>Many messages, low ACUs</td><td>Prompt or context</td><td>Reuse the Improved Prompt; capture repeated corrections as a skill or rule</td></tr>
+          <tr><td>Misleading knowledge flagged</td><td>Context</td><td>Fix or delete the item; make its description narrower</td></tr>
+          <tr><td>Wrong category</td><td>Prompt</td><td>State the goal explicitly ("feature", not a bug description)</td></tr>
+          <tr><td>Same issue repeated in timeline</td><td>Environment</td><td>Missing tool, wrong version, permission error: fix once in the blueprint</td></tr>
+          <tr><td>Devin re-installs the same thing every session</td><td>Environment</td><td>Move it to <code>initialize</code></td></tr>
+          <tr><td>Devin keeps asking how to run tests</td><td>Context</td><td>Blueprint <code>knowledge</code> entry plus a test skill</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>A weekly 30-minute routine for the SME</h3>
+      <ol>
+        <li>Open Consumption Analytics; list the week's L/XL sessions.</li>
+        <li>Open Session Insights on the top five. Note the layer each points at.</li>
+        <li>Approve or reject pending skill suggestions; merge the good PRs.</li>
+        <li>Check build health and Partial builds; unpin anything forgotten.</li>
+        <li>Skim Devin Coach blockers and guardrail violations.</li>
+        <li>Turn the best improved prompt into a playbook or skill.</li>
+        <li>Ask Devin to analyze a failed session: "This used 42 ACUs; I expected 12. Where did the time go, and what prompt would avoid it?"</li>
+      </ol>
+    </section>
+
+    <!-- 18 -->
+    <section class="chapter" id="rollout" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 18</div>
+        <h2>A 90-day rollout plan</h2>
+        <p class="why">Tick items as you go. Progress is saved in this browser only.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+      <div class="phases" id="phases"></div>
+      <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+      <div class="progress-txt" id="progressTxt"></div>
+    </section>
+
+    <!-- 19 -->
+    <section class="chapter" id="pitfalls" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 19</div>
+        <h2>Pitfalls and how to avoid them</h2>
+        <p class="why">Most of these show up in the first month of any rollout.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+      <div class="tbl"><table>
+        <thead><tr><th>Pitfall</th><th>Consequence</th><th>Do instead</th></tr></thead>
+        <tbody>
+          <tr><td>A 40 KB AGENTS.md</td><td>Only the first 16 KiB is auto-loaded; key rules silently missed</td><td>Keep under 16 KiB, critical items first, procedures in skills</td></tr>
+          <tr><td>Writing new Knowledge notes</td><td>Building on a deprecated feature</td><td>Write skills, in the repo or in an org plugin</td></tr>
+          <tr><td>Vague skill descriptions</td><td>Skills never auto-invoke, or fire at the wrong time</td><td>"Use when…" with concrete task and file cues</td></tr>
+          <tr><td>Deploy skill without <code>triggers: ["user"]</code></td><td>Devin may run it on its own</td><td>User-only triggers for anything with side effects</td></tr>
+          <tr><td>Skipping environment setup</td><td>Devin can't run tests, so it can't verify; sessions balloon</td><td>Blueprint before broad rollout</td></tr>
+          <tr><td>Repo commands in enterprise blueprint</td><td>Run in <code>~</code>, fail or install in the wrong place</td><td>Repo blueprints for repo commands</td></tr>
+          <tr><td>Secrets in YAML or plugin files</td><td>Leak into logs, snapshots, git history</td><td>Secrets UI and <code>secret:</code> references</td></tr>
+          <tr><td>Forgotten snapshot pin</td><td>Stale environment indefinitely</td><td>Pin only for a defined window; calendar the unpin</td></tr>
+          <tr><td>One session, five tasks</td><td>L/XL session, tangled PR</td><td>One task per session; parallelize</td></tr>
+          <tr><td>Org-scoped OAuth MCP on a personal login</td><td>Everyone acts as that person</td><td>Service account, or Personal access</td></tr>
+          <tr><td>Automations on public repos or open Slack channels</td><td>Untrusted input drives sessions</td><td>Private repos, mandatory restrictive profile, guardrails</td></tr>
+          <tr><td>Running a frontier model alone for every local task</td><td>Paying frontier rates for mechanical edits and test runs</td><td>Fusion for complex work, <code>swe</code> for small edits; check <code>/session-stats</code></td></tr>
+          <tr><td>Model allowlist that omits Fusion or its sidekick</td><td>Fusion missing from users' pickers; pinned default silently falls back</td><td>Allowlist the Fusion family and recommended sidekicks before setting it as default</td></tr>
+          <tr><td>Weakening branch protection for Devin PRs</td><td>Unreviewed code merges</td><td>Keep required human review; let Auto-Fix get PRs ready</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- 20 -->
+    <section class="chapter" id="quiz" data-aud="user admin">
+      <header>
+        <div class="num">CHAPTER 20</div>
+        <h2>Self-check</h2>
+        <p class="why">Twelve questions you'll be asked as the resident expert.</p>
+        <div class="aud"><span class="tag user">User</span><span class="tag admin">Admin</span></div>
+      </header>
+      <div class="quiz" id="quizBox"></div>
+      <p class="score" id="score" aria-live="polite"></p>
+    </section>
+
+    <footer class="foot">
+      <p>Built from Cognition's documentation at docs.devin.ai, read on 3 October 2026. Devin ships changes weekly; check the release notes before quoting limits or prices.</p>
+      <ul>
+        <li><a href="https://docs.devin.ai/product-guides/skills" target="_blank" rel="noopener">Skills</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/knowledge" target="_blank" rel="noopener">Knowledge (deprecation + migration)</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/plugins" target="_blank" rel="noopener">Plugins and Customize</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/plugin-ecosystem" target="_blank" rel="noopener">Plugin ecosystem</a></li>
+        <li><a href="https://docs.devin.ai/onboard-devin/agents-md" target="_blank" rel="noopener">AGENTS.md</a></li>
+        <li><a href="https://docs.devin.ai/cli/extensibility/rules" target="_blank" rel="noopener">Rules</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/creating-playbooks" target="_blank" rel="noopener">Playbooks</a></li>
+        <li><a href="https://docs.devin.ai/work-with-devin/deepwiki" target="_blank" rel="noopener">DeepWiki</a></li>
+        <li><a href="https://docs.devin.ai/work-with-devin/ask-devin" target="_blank" rel="noopener">Ask Devin</a></li>
+        <li><a href="https://docs.devin.ai/onboard-devin/environment/blueprints" target="_blank" rel="noopener">Blueprints</a></li>
+        <li><a href="https://docs.devin.ai/enterprise/environment-management/best-practices" target="_blank" rel="noopener">Enterprise environment practices</a></li>
+        <li><a href="https://docs.devin.ai/work-with-devin/devin-review" target="_blank" rel="noopener">Devin Review</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/automations" target="_blank" rel="noopener">Automations</a></li>
+        <li><a href="https://docs.devin.ai/work-with-devin/dynamic-workflows" target="_blank" rel="noopener">Dynamic workflows</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/security-profiles" target="_blank" rel="noopener">Security profiles</a></li>
+        <li><a href="https://docs.devin.ai/enterprise/security-access/custom-roles" target="_blank" rel="noopener">Custom roles</a></li>
+        <li><a href="https://docs.devin.ai/enterprise/features/usage-policies" target="_blank" rel="noopener">Usage policies</a></li>
+        <li><a href="https://docs.devin.ai/product-guides/session-insights" target="_blank" rel="noopener">Session Insights</a></li>
+        <li><a href="https://docs.devin.ai/cli/fusion" target="_blank" rel="noopener">Fusion in Devin CLI</a></li>
+        <li><a href="https://docs.devin.ai/desktop/fusion" target="_blank" rel="noopener">Fusion in Devin Desktop</a></li>
+        <li><a href="https://docs.devin.ai/cli/models" target="_blank" rel="noopener">CLI models and Adaptive</a></li>
+        <li><a href="https://docs.devin.ai/cli/enterprise/team-settings" target="_blank" rel="noopener">CLI team settings</a></li>
+        <li><a href="https://docs.devin.ai/release-notes/2026" target="_blank" rel="noopener">Release notes 2026</a></li>
+      </ul>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } return null; }
+
+  // theme toggle
+  var themeBtn = document.getElementById('themeBtn');
+  var themes = ['system', 'light', 'dark'];
+  function applyTheme(t) {
+    if (t === 'system') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', t);
+    themeBtn.textContent = 'Theme: ' + t;
+  }
+  var savedTheme = store('dfm-theme') || 'system';
+  applyTheme(savedTheme);
+  themeBtn.addEventListener('click', function () {
+    var cur = store('dfm-theme') || themeBtn.textContent.replace('Theme: ', '');
+    var next = themes[(themes.indexOf(cur) + 1) % themes.length];
+    store('dfm-theme', next); applyTheme(next);
+  });
+
+  // audience filter
+  var segBtns = document.querySelectorAll('#audSeg button');
+  var chapters = document.querySelectorAll('.chapter');
+  var tocLinks = document.querySelectorAll('#toc a');
+  function setAud(a) {
+    segBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.aud === a ? 'true' : 'false'); });
+    chapters.forEach(function (c) {
+      var show = a === 'all' || c.dataset.aud.split(' ').indexOf(a) !== -1;
+      c.hidden = !show;
+      var link = document.querySelector('#toc a[href="#' + c.id + '"]');
+      if (link) link.parentElement.hidden = !show;
+    });
+    store('dfm-aud', a);
+  }
+  segBtns.forEach(function (b) { b.addEventListener('click', function () { setAud(b.dataset.aud); }); });
+  setAud(store('dfm-aud') || 'all');
+
+  // scroll spy
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          tocLinks.forEach(function (l) { l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id); });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    chapters.forEach(function (c) { io.observe(c); });
+  }
+
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pre = btn.closest('.code').querySelector('pre');
+      var text = pre.innerText;
+      function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done('Copied'); }, function () { selectPre(pre); done('Selected'); });
+      } else { selectPre(pre); done('Selected'); }
+    });
+  });
+  function selectPre(pre) { var r = document.createRange(); r.selectNodeContents(pre); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+  // placement tool
+  var verdictEl = document.getElementById('verdict');
+  function val(n) { var el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : null; }
+  function place() {
+    var k = val('kind'), f = val('freq'), s = val('scope');
+    var v = '', why = '', where = '';
+    if (k === 'cmd') {
+      v = 'Blueprint knowledge entry';
+      where = 'Settings → Environment → Blueprints → [repo] → <code>knowledge:</code>';
+      why = 'Exact commands load per repo at session start without costing other repos any context. Reference them from a skill if a procedure needs them.';
+    } else if (k === 'review') {
+      v = 'REVIEW.md';
+      where = s === 'repo' ? '<code>REVIEW.md</code> at the root, or in the subdirectory it governs' : 'A REVIEW.md in each repo, or a custom glob under Settings → Review → Review Rules';
+      why = 'Devin Review reads REVIEW.md scoped to its directory. Keep authoring rules in AGENTS.md and review emphasis here.';
+    } else if (k === 'task') {
+      v = s === 'repo' ? 'Skill with triggers: ["user"]' : 'Playbook';
+      where = s === 'repo' ? '<code>.agents/skills/&lt;name&gt;/SKILL.md</code>, invoked with <code>@skills:name</code>' : (s === 'company' ? 'Settings → Playbooks → Enterprise tab, with a !macro' : (s === 'me' ? 'A personal skill (Customize → Skills, personal scope)' : 'Settings → Playbooks → Organization tab, with a !macro'));
+      why = s === 'repo' ? 'A repo-bound task template is best versioned next to the code it drives.' : 'Playbooks are whole-task templates any team member can attach, with version history in the app.';
+    } else if (k === 'proc') {
+      v = 'Skill';
+      if (s === 'repo') where = '<code>.agents/skills/&lt;name&gt;/SKILL.md</code> in the repo';
+      else if (s === 'team') where = 'A skill inside your org plugin (team marketplace repo, installed at org scope)';
+      else if (s === 'company') where = 'A skill inside the enterprise baseline plugin, required at enterprise scope';
+      else where = 'A personal skill (Customize → Skills, or <code>devin plugins install</code>)';
+      why = 'Procedures load only when relevant, so they cost nothing in unrelated sessions. Write the description as "Use when…".';
+      if (f === 'always') why += ' Since it applies to almost every task, also add one line to AGENTS.md or a rule naming the skill.';
+    } else {
+      if (f === 'always') {
+        v = s === 'repo' ? 'AGENTS.md' : 'Always-on rule';
+        if (s === 'repo') where = '<code>AGENTS.md</code> at the repo root, near the top (first 16 KiB)';
+        else if (s === 'team') where = 'Customize → Rules at org scope, or <code>rules/</code> in your org plugin';
+        else if (s === 'company') where = 'Enterprise plugin <code>AGENTS.md</code> or Customize → Rules at enterprise scope';
+        else where = 'Personal rule (Customize → Rules) or <code>~/.config/devin/AGENTS.md</code> for the CLI; <code>AGENTS.local.md</code> per repo';
+        why = 'Always-on guidance is paid for in every session. Keep it to short, concrete non-negotiables.';
+      } else {
+        v = 'Triggered rule or skill';
+        where = s === 'repo' ? '<code>.devin/rules/&lt;name&gt;.md</code> with <code>trigger: glob</code> or <code>model_decision</code>' : 'A rule with a trigger, or a skill, inside the plugin for that scope';
+        why = 'Conventions that apply only to certain files or tasks should activate on demand so they don\'t dilute everything else.';
+      }
+    }
+    verdictEl.innerHTML = '<b class="v">' + v + '</b><div>' + where + '</div><p style="margin:.4rem 0 0;font-size:.92rem">' + why + '</p>';
+  }
+  document.querySelectorAll('#placer input').forEach(function (i) { i.addEventListener('change', place); });
+  place();
+
+  // rollout checklist
+  var plan = [
+    { t: 'Foundation', w: 'Weeks 0–2', items: [
+      ['Admin', 'SSO + SCIM live; IdP groups mapped to roles'],
+      ['Admin', 'Org structure decided (one org per team / IdP group)'],
+      ['Admin', 'Git integration via GitHub App; repos granted per org'],
+      ['Admin', 'Repos indexed; DeepWiki generated; DeepWiki Only role for broad read access'],
+      ['Admin', 'Enterprise blueprint: runtimes, CA certs, proxy, registry auth'],
+      ['Admin', 'Enterprise security profile (recommended) with network allowlist'],
+      ['Admin', 'Guardrails on Log only; usage tiers via recommendations'],
+      ['Admin', 'Branch protection confirms human review on Devin PRs']
+    ]},
+    { t: 'Pilot', w: 'Weeks 2–6', items: [
+      ['Lead', 'Pick 2–3 pilot repos and 5–10 champions'],
+      ['Lead', 'Repo blueprints with lint / test / build knowledge; builds green'],
+      ['Lead', 'AGENTS.md under 16 KiB in each pilot repo'],
+      ['Lead', 'Three skills per repo: run, test, pr-ready'],
+      ['Lead', 'REVIEW.md and DEVIN_PR_TEMPLATE.md'],
+      ['Admin', 'Devin Review on pilot repos (On PR creation); Auto-Fix enabled'],
+      ['Admin', 'Slack or Teams integration; Jira or Linear connected'],
+      ['User', 'Every champion runs Ask Devin → session at least 5 times'],
+      ['User', 'Champions run a Fusion vs single-model bake-off in Devin CLI; compare /session-stats'],
+      ['Lead', 'Weekly Session Insights review; suggestions triaged']
+    ]},
+    { t: 'Scale', w: 'Weeks 6–12', items: [
+      ['Admin', 'Team marketplace repo with meta-plugin; required at enterprise'],
+      ['Admin', 'Knowledge migration reviewed; legacy notes cleaned up'],
+      ['Admin', 'Local model allowlist and team default set (Fusion if the bake-off supports it)'],
+      ['Lead', 'Top 3 repeated tasks turned into playbooks'],
+      ['Lead', 'Automations: fix red CI, ticket to PR, one scheduled sweep'],
+      ['Admin', 'Mandatory restrictive profile on automations default'],
+      ['Lead', 'One auto-triage channel with Sentry or Datadog MCP'],
+      ['Lead', 'One migration run with managed Devins or a workflow on a slice'],
+      ['Admin', 'Guardrails promoted to Warn or Block where confident'],
+      ['Admin', 'Monthly report: ACUs, session sizes, PRs merged, bugs caught']
+    ]}
+  ];
+  var phasesEl = document.getElementById('phases');
+  var saved = {};
+  try { saved = JSON.parse(store('dfm-plan') || '{}') || {}; } catch (e) { saved = {}; }
+  var total = 0;
+  plan.forEach(function (p, pi) {
+    var div = document.createElement('div'); div.className = 'phase';
+    var html = '<div class="when">' + p.w + '</div><h4>' + p.t + '</h4><ul>';
+    p.items.forEach(function (it, ii) {
+      var id = 'chk-' + pi + '-' + ii; total++;
+      html += '<li><label for="' + id + '"><input type="checkbox" id="' + id + '"' + (saved[id] ? ' checked' : '') + '><span><span class="who">' + it[0] + '</span><br>' + it[1] + '</span></label></li>';
+    });
+    div.innerHTML = html + '</ul>';
+    phasesEl.appendChild(div);
+  });
+  function updateProgress() {
+    var boxes = phasesEl.querySelectorAll('input[type=checkbox]');
+    var n = 0; var state = {};
+    boxes.forEach(function (b) { if (b.checked) { n++; state[b.id] = 1; } });
+    store('dfm-plan', JSON.stringify(state));
+    document.getElementById('barFill').style.width = (100 * n / total) + '%';
+    document.getElementById('progressTxt').textContent = n + ' of ' + total + ' done';
+  }
+  phasesEl.addEventListener('change', updateProgress);
+  updateProgress();
+
+  // quiz
+  var qs = [
+    { q: 'Your AGENTS.md is 30 KiB. What does Devin load automatically?', c: ['All of it', 'The first 16 KiB, with a truncation notice', 'Nothing; files over 16 KiB are ignored', 'Only the headings'], a: 1, e: 'Devin injects the first 16 KiB of each AGENTS.md and can read the rest on demand. Put critical instructions first and move procedures into skills.' },
+    { q: 'Where should "how to start the local stack and run integration tests for this repo" live?', c: ['An org playbook', 'A Knowledge note', 'A skill in the repo', 'The enterprise blueprint'], a: 2, e: 'A repo-specific procedure is the textbook skill: versioned with the code, loaded only when relevant.' },
+    { q: 'What is happening to Knowledge?', c: ['Nothing', 'Deprecated; notes are migrated into skills inside a Knowledge plugin', 'Renamed to Playbooks', 'Moved into DeepWiki'], a: 1, e: 'Knowledge notes are being converted to skills at the same scope, with triggers becoming descriptions. Write new guidance as skills.' },
+    { q: 'A user invokes @skills:deploy, then @skills:test-before-pr. What is active?', c: ['Both', 'Only deploy', 'Only test-before-pr', 'Neither; it errors'], a: 2, e: 'Only one skill is active at a time. Invoking a new skill replaces the previous one.' },
+    { q: 'The enterprise manifest forbids plugin X. An org lists X in requiredPlugins. Result?', c: ['X installs for that org', 'X is blocked; higher authority wins', 'The org admin gets a prompt', 'X installs but its skills are read-only'], a: 1, e: 'A lower scope can never re-permit what a higher scope forbids. X shows under "Installed but blocked".' },
+    { q: 'An enterprise mandatory profile allows *.internal.example.com. Mid-session, a user approves github.com. What happens?', c: ['github.com is reachable for this session', 'It is clamped by the mandatory policy and stays blocked', 'The session restarts', 'The approval escalates to an admin'], a: 1, e: 'Mid-session grants are intersected with the mandatory profile, so a session can never exceed it.' },
+    { q: 'A blueprint writes an npm token into ~/.npmrc during initialize. What is the risk?', c: ['None; secrets are stripped', 'The value persists in the snapshot', 'The build fails', 'npm ignores it'], a: 1, e: 'Secrets are removed from the environment before saving, but anything written to a file during initialize persists. Write credentials in maintenance.' },
+    { q: 'DeepWiki skips important folders in a huge monorepo. Fix?', c: ['Raise effort to High', 'Add .devin/wiki.json listing every page you want', 'Split the repo', 'Add more repo notes only'], a: 1, e: 'With wiki.json present, Devin generates exactly the pages listed, so list all of them, not only the missing ones.' },
+    { q: 'Session Insights shows many user messages and low ACUs. What is the likely cause?', c: ['Broken environment', 'Under-specified prompt or missing context', 'Model degradation', 'Too many repos indexed'], a: 1, e: 'Lots of course-correction with little compute means Devin lacked direction. Use the improved prompt and encode the corrections.' },
+    { q: 'Does Devin Review usage count toward per-user ACU limits?', c: ['Yes', 'No, but it counts toward the org limit', 'Only auto-reviews', 'Only for admins'], a: 1, e: 'Review is excluded from per-user limits but counts toward its billing org\'s ACU limit. Use the per-PR auto-review spend limit to control it.' },
+    { q: 'In a Fusion session, which model writes the code and runs the tests?', c: ['The lead', 'The sidekick', 'Whichever Adaptive picks', 'Both, alternating turns'], a: 1, e: 'The frontier lead plans, investigates and reviews; the cost-efficient sidekick does the mechanical implementation, builds and tests. That split is where the savings come from.' },
+    { q: 'An enterprise on legacy credits billing can\'t find Fusion in Devin CLI 3000.10.20. Why?', c: ['The CLI is too old', 'Fusion isn\'t offered on legacy or credit-based plans', 'Fusion is cloud-only', 'An admin must enable Adaptive first'], a: 1, e: 'Fusion needs a current paid plan. It is excluded from free, trial and legacy credit-based plans, including enterprises on legacy credits.' }
+  ];
+  var quizBox = document.getElementById('quizBox');
+  var answered = 0, correct = 0;
+  qs.forEach(function (item, qi) {
+    var d = document.createElement('div'); d.className = 'qz';
+    var p = document.createElement('p'); p.className = 'q'; p.textContent = (qi + 1) + '. ' + item.q; d.appendChild(p);
+    var ch = document.createElement('div'); ch.className = 'choices';
+    var ex = document.createElement('div'); ex.className = 'explain'; ex.hidden = true; ex.textContent = item.e;
+    item.c.forEach(function (c, ci) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = c;
+      b.addEventListener('click', function () {
+        if (d.dataset.done) return;
+        d.dataset.done = '1'; answered++;
+        if (ci === item.a) { b.classList.add('right'); correct++; } else { b.classList.add('wrong'); ch.children[item.a].classList.add('right'); }
+        ex.hidden = false;
+        document.getElementById('score').textContent = correct + ' / ' + answered + ' correct' + (answered === qs.length ? (correct >= 10 ? '. Ready to field questions.' : '. Revisit chapters 05 to 09.') : '');
+      });
+      ch.appendChild(b);
+    });
+    d.appendChild(ch); d.appendChild(ex); quizBox.appendChild(d);
+  });
+})();
+</script>
+
+</body></html>
